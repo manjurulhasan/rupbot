@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Site;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Promise\Promise;
@@ -85,55 +86,70 @@ class runCheck extends Command
 
      public function handle()
      {
-//         $websites = [
-//            'https://google.com' => 5, // Set a timeout of 5 seconds for example1.com
-//            'https://vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://erp.vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://preprod-erp.vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://staging.vicafeerp.sls.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://shajib.ch' => 30, // Set a timeout of 3 seconds for example2.com
-//            // Add the URLs and corresponding timeouts for the 200 websites you want to check here
-//        ];
-         $websites = [
-             'https://google.com',
-             'https://vicafe.ch',
-             'https://erp.vicafe.ch',
-             'https://preprod-erp.vicafe.ch',
-             'https://staging.vicafeerp.sls.ch',
-             'https://shajib.ch'
-         ];
+        //  $websites = [
+        //      'https://google.com',
+        //      'https://vicafe.ch',
+        //      'https://erp.vicafe.ch',
+        //      'https://preprod-erp.vicafe.ch',
+        //      'https://staging.vicafeerp.sls.ch',
+        //      'https://shajib.ch'
+        //  ];
 
-         $client = new Client();
+        $websites = $this->getSites();
 
-         $requests = function ($websites) use ($client) {
-             foreach ($websites as $url) {
-                 yield function() use ($client, $url) {
-                     return $client->getAsync($url);
-                 };
-             }
-         };
+        $client = new Client();
 
-         $pool = new Pool($client, $requests($websites), [
-             'concurrency' => 20, // Adjust this value for the number of concurrent requests you want to make.
-             'fulfilled' => function ($response, $index) use ($websites) {
-                 if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
-                     $this->info($websites[$index] . " is up and running!");
-                 } else {
-                     $this->error($websites[$index] . " is down or inaccessible.");
-                 }
-             },
+        $requests = function ($websites) use ($client) {
+            foreach ($websites as $url) {
+                yield function() use ($client, $url) {
+                    return $client->getAsync($url);
+                };
+            }
+        };
+
+        $pool = new Pool($client, $requests($websites), [
+            'concurrency' => config('rupbot.concurrency'),
+            'fulfilled' => function ($response, $index) use ($websites) {
+                if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+                    $this->info($websites[$index] . " is up and running!");
+                    $data['last_check'] = now();
+                    $data['up_at']      = now();
+                    $data['status']     = 1;
+                    $data['code']       = $response->getStatusCode();
+                } else {
+
+                    $this->error($websites[$index] . " is down or inaccessible.");
+                    $data['last_check'] = now();
+                    $data['down_at']    = now();
+                    $data['status']     = 0;
+                    $data['code']       = $response->getStatusCode();
+                }
+                Site::where('url', $websites[$index])->update($data);
+            },
              'rejected' => function ($reason, $index) use ($websites) {
-                 if($reason->getCode() !== 0){
-                     $this->error($websites[$index] . " ". $reason->getResponse()->getReasonPhrase());
-                 }else{
+                if($reason->getCode() !== 0){
+                    $this->error($websites[$index] . " ". $reason->getResponse()->getReasonPhrase());
+                    $data['message'] = $reason->getResponse()->getReasonPhrase();
+                    
+                } else{
                     $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
-                 }
+                    $data['message'] = $reason->getHandlerContext()['error'];
+                }
 
-             },
-         ]);
+                $data['code']       = $reason->getCode();
+                $data['status']     = 0;
+                $data['last_check'] = now();
+                $data['down_at']    = now();
+                Site::where('url', $websites[$index])->update($data);
+            },
+        ]);
 
-         $promise = $pool->promise();
-         $promise->wait();
-     }
+        $promise = $pool->promise();
+        $promise->wait();
+    }
+
+    private function getSites(){
+        return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
+    }
 
 }
