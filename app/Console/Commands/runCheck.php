@@ -96,8 +96,15 @@ class runCheck extends Command
         //  ];
 
         $websites = $this->getSites();
+         $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36';
+         $referer = 'https://vicafe.ch';
 
-        $client = new Client();
+        $client = new Client([
+            'headers' => [
+                'User-Agent' => $userAgent,
+                'referer' => $referer
+            ]
+        ]);
 
         $requests = function ($websites) use ($client) {
             foreach ($websites as $url) {
@@ -128,9 +135,17 @@ class runCheck extends Command
             },
              'rejected' => function ($reason, $index) use ($websites) {
                 if($reason->getCode() !== 0){
-                    $this->error($websites[$index] . " ". $reason->getResponse()->getReasonPhrase());
-                    $data['message'] = $reason->getResponse()->getReasonPhrase();
-                    
+                    $status = $this->curlSite($websites[$index]);
+                    if(!$status) {
+                        $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
+                        $data['message'] = $reason->getResponse()->getReasonPhrase();
+                    }else{
+                        $data['last_check'] = now();
+                        $data['up_at']      = now();
+                        $data['status']     = 1;
+                        $data['code']       = 200;
+                        $this->info($websites[$index] . " is up and running!");
+                    }
                 } else{
                     $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
                     $data['message'] = $reason->getHandlerContext()['error'];
@@ -150,6 +165,29 @@ class runCheck extends Command
 
     private function getSites(){
         return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
+    }
+
+    private function curlSite($url)
+    {
+        $ch = curl_init($url);
+        $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36';
+
+        curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+//        curl_setopt($ch, CURLOPT_REFERER, $referer);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response !== false && $httpCode === 200) {
+            return true;
+        } else {
+            return false;
+        }
+        curl_close($ch);
     }
 
 }
