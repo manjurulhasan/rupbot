@@ -23,4 +23,9 @@ class Site extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function contacts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

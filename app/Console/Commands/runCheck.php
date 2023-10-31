@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\MailSendJob;
 use App\Models\Site;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
@@ -130,7 +131,7 @@ class runCheck extends Command
                     $data['status']     = 0;
                     $data['code']       = $response->getStatusCode();
                 }
-                Site::where('url', $websites[$index])->update($data);
+                $this->updateSite($websites[$index] , $data);
             },
              'rejected' => function ($reason, $index) use ($websites) {
                 if($reason->getCode() !== 0){
@@ -138,6 +139,10 @@ class runCheck extends Command
                     if(!$status) {
                         $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
                         $data['message'] = $reason->getResponse()->getReasonPhrase();
+                        $data['code']       = $reason->getCode();
+                        $data['status']     = 0;
+                        $data['last_check'] = now();
+                        $data['down_at']    = now();
                     }else{
                         $data['last_check'] = now();
                         $data['up_at']      = now();
@@ -147,14 +152,13 @@ class runCheck extends Command
                     }
                 } else{
                     $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
+                    $data['code']       = $reason->getCode();
+                    $data['status']     = 0;
+                    $data['last_check'] = now();
+                    $data['down_at']    = now();
                     $data['message'] = $reason->getHandlerContext()['error'];
                 }
-
-                $data['code']       = $reason->getCode();
-                $data['status']     = 0;
-                $data['last_check'] = now();
-                $data['down_at']    = now();
-                Site::where('url', $websites[$index])->update($data);
+                $this->updateSite($websites[$index] , $data);
             },
         ]);
 
@@ -164,6 +168,18 @@ class runCheck extends Command
 
     private function getSites(){
         return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
+    }
+
+    private function updateSite($url, $data)
+    {
+        $site = Site::query()->with(['contacts'])->where('url', $url)->first();
+        $mail = $data;
+        $mail['contacts'] = $site->contacts;
+        $site->update($data);
+        if($site->status == 1 && $data['status'] == 0){
+            MailSendJob::dispatch($mail);
+        }
+        return true;
     }
 
     private function curlSite($url)
