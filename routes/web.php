@@ -9,3 +9,4 @@ Route::get('/', function () {
 
 Route::get('/dashboard', App\Livewire\Dashboard::class)->name('dashboard');
 Route::post('/logout', App\Livewire\Dashboard::class)->name('logout');
+Route::get('/login', App\Livewire\Auth\Login::class)->name('login');

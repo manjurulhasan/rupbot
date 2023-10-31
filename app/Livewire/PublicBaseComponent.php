@@ -4,9 +4,9 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\View\Components\Admin\Layout;
 
-class BaseComponent extends Component
+class PublicBaseComponent extends Component
 {
-    protected $layout = "components.layouts.app";
+    protected $layout = "components.layouts.public";
     /**
      * get all the attribute and properties of parent layout blade component
      *
