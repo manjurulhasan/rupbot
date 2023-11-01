@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Site;
+use App\Services\SiteManagerService;
 use App\Traits\WithBulkActions;
 use App\Traits\WithCachedRows;
 use App\Traits\WithPerPagePagination;
@@ -17,6 +18,13 @@ class Dashboard extends BaseComponent
 
     public $filter = [
         'site_name' => ''
+    ];
+
+    public $site = [
+        'project' => null,
+        'url'     => null,
+        'manager' => null,
+        'email'   => null
     ];
     public function render()
     {
@@ -38,5 +46,19 @@ class Dashboard extends BaseComponent
         return $this->cache(function () {
             return $this->applyPagination($this->rowsQuery);
         });
+    }
+
+    public function addNewSite()
+    {
+        $res = (new SiteManagerService())->addSite($this->site);
+        $this->reset('site');
+    }
+
+    public function openNewSiteModal()
+    {
+        $this->reset('site');
+        $this->reset();
+        $this->resetErrorBag();
+        $this->dispatch('openNewSiteModal');
     }
 }

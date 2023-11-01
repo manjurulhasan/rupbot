@@ -12,7 +12,7 @@
 <div style="max-width: 595px; margin-left: auto; margin-right: auto; font-family: sans-serif,'Nunito Sans';">
     <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0" style="background: #ffffff;">
         <tr>
-            <td colspan="3" height="22"> Site is down</td>
+            <td colspan="3" height="22">Your Site is down</td>
         </tr>
     </table>
 </div>

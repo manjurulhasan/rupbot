@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use Exception;
+
+class DummyClass
+{
+     public function customFunction()
+     {
+        try
+        {
+            // ToDo
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+     }
+}

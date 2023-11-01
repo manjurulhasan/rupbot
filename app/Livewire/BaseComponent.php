@@ -2,7 +2,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\View\Components\Admin\Layout;
+//use App\View\Components\Admin\Layout;
 
 class BaseComponent extends Component
 {
@@ -14,7 +14,7 @@ class BaseComponent extends Component
      */
     protected function getLayoutAttributes(): array
     {
-        return app( Layout::class )->data();
+//        return app( Layout::class )->data();
     }
 
     /**
@@ -26,7 +26,7 @@ class BaseComponent extends Component
      */
     protected function alertMessage( $message, $type = "success" ): void
     {
-        $this->dispatchBrowserEvent( 'alert', ['type' => $type, 'message' => $message] );
+        $this->dispatch( 'alert', ['type' => $type, 'message' => $message] );
     }
 
     /**
@@ -38,7 +38,7 @@ class BaseComponent extends Component
      */
     protected function toastMessage( $message, $type = "success" ): void
     {
-        $this->dispatchBrowserEvent( 'notify', ['type' => $type, 'message' => $message] );
+        $this->dispatch( 'notify', ['type' => $type, 'message' => $message] );
     }
 
     /**
@@ -52,7 +52,7 @@ class BaseComponent extends Component
     public function showConfirmDialog( $actionProp, $value = null )
     {
         $this->{$actionProp} = $value;
-        $this->dispatchBrowserEvent( 'showConfirmDialog', $value );
+        $this->dispatch( 'showConfirmDialog', $value );
     }
 
     /**
@@ -63,7 +63,7 @@ class BaseComponent extends Component
      */
     protected function hideModal()
     {
-        $this->dispatchBrowserEvent( 'hideModal' );
+        $this->dispatch( 'hideModal' );
     }
 
     /**
@@ -74,7 +74,7 @@ class BaseComponent extends Component
      */
     protected function hideConfirm()
     {
-        $this->dispatchBrowserEvent( 'hideConfirmDialog' );
+        $this->dispatch( 'hideConfirmDialog' );
     }
 
     protected function view( string $view, array $data = [] )
@@ -84,6 +84,6 @@ class BaseComponent extends Component
 
     protected function hideOffCanvas()
     {
-        $this->dispatchBrowserEvent('hideOffCanvas');
+        $this->dispatch('hideOffCanvas');
     }
 }

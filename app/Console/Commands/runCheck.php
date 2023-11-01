@@ -135,21 +135,21 @@ class runCheck extends Command
             },
              'rejected' => function ($reason, $index) use ($websites) {
                 if($reason->getCode() !== 0){
-                    $status = $this->curlSite($websites[$index]);
-                    if(!$status) {
+//                    $status = $this->curlSite($websites[$index]);
+//                    if(!$status) {
                         $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
                         $data['message'] = $reason->getResponse()->getReasonPhrase();
                         $data['code']       = $reason->getCode();
                         $data['status']     = 0;
                         $data['last_check'] = now();
                         $data['down_at']    = now();
-                    }else{
-                        $data['last_check'] = now();
-                        $data['up_at']      = now();
-                        $data['status']     = 1;
-                        $data['code']       = 200;
-                        $this->info($websites[$index] . " is up and running!");
-                    }
+//                    }else{
+//                        $data['last_check'] = now();
+//                        $data['up_at']      = now();
+//                        $data['status']     = 1;
+//                        $data['code']       = 200;
+//                        $this->info($websites[$index] . " is up and running!");
+//                    }
                 } else{
                     $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
                     $data['code']       = $reason->getCode();
@@ -175,10 +175,11 @@ class runCheck extends Command
         $site = Site::query()->with(['contacts'])->where('url', $url)->first();
         $mail = $data;
         $mail['contacts'] = $site->contacts;
-        $site->update($data);
+
         if($site->status == 1 && $data['status'] == 0){
             MailSendJob::dispatch($mail);
         }
+        $site->update($data);
         return true;
     }
 

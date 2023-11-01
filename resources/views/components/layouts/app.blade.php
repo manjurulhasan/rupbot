@@ -20,20 +20,12 @@
       <x-common.header />
       <div class="page-wrapper">
         <!-- Page header -->
-        <div class="page-header d-print-none">
-          <div class="container-xl">
-            @yield('top-header')
-          </div>
-        </div>
+          @yield('header')
         <!-- Page body -->
-        <div class="page-body">
-          <div class="container-xl">
-            @yield('content')
-          </div>
-        </div>
+          @yield('content')
       </div>
     </div>
-
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
     @livewireScripts
     @stack('footer')
