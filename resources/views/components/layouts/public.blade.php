@@ -20,7 +20,7 @@
 </div>
 
 <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
-@livewireScriptConfig
+@livewireScripts
 @stack('footer')
 </body>
 </html>

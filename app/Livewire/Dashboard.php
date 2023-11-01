@@ -15,7 +15,9 @@ class Dashboard extends BaseComponent
     use WithSorting;
     use WithBulkActions;
 
-    public $title = 'Dashboard';
+    public $filter = [
+        'site_name' => ''
+    ];
     public function render()
     {
         $data['sites'] = $this->rows;
@@ -25,6 +27,7 @@ class Dashboard extends BaseComponent
     public function getRowsQueryProperty()
     {
         $query = Site::query()
+            ->when($this->filter['site_name'], fn($q,$site_name ) => $q->where('project' , 'like' , "%$site_name%") )
             ->latest();
 
         return $this->applySorting($query);
