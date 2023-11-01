@@ -6,6 +6,7 @@ use App\Jobs\MailSendJob;
 use App\Models\Log;
 use App\Models\Site;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class CommandService
@@ -13,6 +14,9 @@ class CommandService
     public function getSites()
     {
         return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
+//        return Cache::remember('sites', 60*60*24, function () {
+//            Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
+//        });
     }
 
      public function updateSite($url, $data)
