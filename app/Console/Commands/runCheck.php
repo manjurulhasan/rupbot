@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\MailSendJob;
 use App\Models\Site;
+use App\Services\CommandService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Promise\Promise;
@@ -29,74 +30,17 @@ class runCheck extends Command
      */
     protected $description = 'Command description';
 
-    private $client;
+    private $service;
 
     public function __construct()
     {
         parent::__construct();
-        $this->client = new Client();
+        $this->service = new CommandService();
     }
-
-//    public function handle()
-//    {
-//        $websites = [
-//            'https://google.com' => 5, // Set a timeout of 5 seconds for example1.com
-//            'https://vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://erp.vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://preprod-erp.vicafe.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://staging.vicafeerp.sls.ch' => 10, // Set a timeout of 3 seconds for example2.com
-//            'https://shajib.ch' => 30, // Set a timeout of 3 seconds for example2.com
-//            // Add the URLs and corresponding timeouts for the 200 websites you want to check here
-//        ];
-//
-//        $client = new Client();
-//        $promises = [];
-//
-//        foreach ($websites as $url => $timeout) {
-//            $promises[$url] = $this->isWebsiteUp($url, $client, $timeout);
-//        }
-//
-//        $results = Utils::settle($promises)->wait();
-//
-//
-//        foreach ($results as $url => $result) {
-//            if ($result['state'] === 'fulfilled' && $result['value'] === true) {
-//                $this->info($url . " is up and running!");
-//            } else if ($result['state'] === 'fulfilled' && $result['value']->getCode() !== 0) {
-////                dd($result['value']->getResponse()->getReasonPhrase());
-//                $this->error($url . " ". $result['value']->getResponse()->getReasonPhrase());
-//            }else{
-////                $this->error($result['value']);
-//                $this->error($url . " down". $result['value']->getHandlerContext()['error']);
-//            }
-//        }
-//    }
-//
-//    private function isWebsiteUp($url, $client, $timeout)
-//    {
-//        return $client->getAsync($url, ['timeout' => $timeout])
-//            ->then(
-//                function ($response) {
-//                    return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
-//                },
-//                function ($reason) {
-//                    return $reason;
-//                }
-//            );
-//    }
 
      public function handle()
      {
-        //  $websites = [
-        //      'https://google.com',
-        //      'https://vicafe.ch',
-        //      'https://erp.vicafe.ch',
-        //      'https://preprod-erp.vicafe.ch',
-        //      'https://staging.vicafeerp.sls.ch',
-        //      'https://shajib.ch'
-        //  ];
-
-         $websites = $this->getSites();
+         $websites = $this->service->getSites();
          $headers = [
              'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
              'Referer' => 'https://google.com',
@@ -131,25 +75,25 @@ class runCheck extends Command
                     $data['status']     = 0;
                     $data['code']       = $response->getStatusCode();
                 }
-                $this->updateSite($websites[$index] , $data);
+                $this->service->updateSite($websites[$index] , $data);
             },
              'rejected' => function ($reason, $index) use ($websites) {
                 if($reason->getCode() !== 0){
-//                    $status = $this->curlSite($websites[$index]);
-//                    if(!$status) {
+                    $status = $this->curlSite($websites[$index]);
+                    if(!$status) {
                         $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
                         $data['message'] = $reason->getResponse()->getReasonPhrase();
                         $data['code']       = $reason->getCode();
                         $data['status']     = 0;
                         $data['last_check'] = now();
                         $data['down_at']    = now();
-//                    }else{
-//                        $data['last_check'] = now();
-//                        $data['up_at']      = now();
-//                        $data['status']     = 1;
-//                        $data['code']       = 200;
-//                        $this->info($websites[$index] . " is up and running!");
-//                    }
+                    }else{
+                        $data['last_check'] = now();
+                        $data['up_at']      = now();
+                        $data['status']     = 1;
+                        $data['code']       = 200;
+                        $this->info($websites[$index] . " is up and running!");
+                    }
                 } else{
                     $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
                     $data['code']       = $reason->getCode();
@@ -158,29 +102,12 @@ class runCheck extends Command
                     $data['down_at']    = now();
                     $data['message'] = $reason->getHandlerContext()['error'];
                 }
-                $this->updateSite($websites[$index] , $data);
+                 $this->service->updateSite($websites[$index] , $data);
             },
         ]);
 
         $promise = $pool->promise();
         $promise->wait();
-    }
-
-    private function getSites(){
-        return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
-    }
-
-    private function updateSite($url, $data)
-    {
-        $site = Site::query()->with(['contacts'])->where('url', $url)->first();
-        $mail = $data;
-        $mail['contacts'] = $site->contacts;
-
-        if($site->status == 1 && $data['status'] == 0){
-            MailSendJob::dispatch($mail);
-        }
-        $site->update($data);
-        return true;
     }
 
     private function curlSite($url)

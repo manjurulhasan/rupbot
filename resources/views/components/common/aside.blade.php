@@ -7,37 +7,47 @@
       </button>
       <h1 class="navbar-brand navbar-brand-autodark">
         <a href=".">
-          <img src="{{asset('assets/img/logo.svg')}}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+          <img src="{{asset('assets/img/selise_logo.png')}}" width="110" height="52" alt="rupbot" class="navbar-brand-image">
         </a>
       </h1>
       <div class="navbar-nav flex-row d-lg-none">
         <div class="nav-item dropdown">
           <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-            <span class="avatar avatar-sm" style="background-image: url({{asset('assets/img/002f.jpg')}})"></span>
+            <span class="avatar avatar-sm" style="background-image: url({{asset('assets/img/selise_logo.png')}})"></span>
             <div class="d-none d-xl-block ps-2">
               <div>{{ auth()?->user()?->name }}</div>
-              <div class="mt-1 small text-muted">Software Engineer</div>
+              <div class="mt-1 small text-muted">SELISE Retails</div>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <a href="./profile.html" class="dropdown-item">Profile</a>
+            <a href="#" class="dropdown-item">Profile</a>
             <div class="dropdown-divider"></div>
-            <a href="./sign-in.html" class="dropdown-item">Logout</a>
+              <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
           </div>
         </div>
       </div>
       <div class="collapse navbar-collapse" id="sidebar-menu">
         <ul class="navbar-nav pt-lg-3">
-            <li class="nav-item">
-                <a class="nav-link" href="./" >
+            <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('dashboard')}}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
+                    <i data-feather="home"></i>
                   </span>
                   <span class="nav-link-title">
                     Dashboard
                   </span>
                 </a>
-              </li>
+            </li>
+            <li class="nav-item {{ (request()->is('logs')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('logs')}}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                     <i data-feather="file-text"></i>
+                  </span>
+                    <span class="nav-link-title">
+                    Logs
+                  </span>
+                </a>
+            </li>
 
         </ul>
       </div>

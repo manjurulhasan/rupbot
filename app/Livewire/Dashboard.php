@@ -23,9 +23,12 @@ class Dashboard extends BaseComponent
     public $site = [
         'project' => null,
         'url'     => null,
-        'manager' => null,
-        'email'   => null
+        'manager' => null
     ];
+
+    public $email = [[
+        'email'   => null,
+    ]];
     public function render()
     {
         $data['sites'] = $this->rows;
@@ -50,13 +53,16 @@ class Dashboard extends BaseComponent
 
     public function addNewSite()
     {
-        $res = (new SiteManagerService())->addSite($this->site);
+        $res = (new SiteManagerService())->addSite($this->site, $this->email);
         $this->reset('site');
+        $this->reset('email');
+        // toaster
     }
 
     public function openNewSiteModal()
     {
         $this->reset('site');
+        $this->reset('email');
         $this->reset();
         $this->resetErrorBag();
         $this->dispatch('openNewSiteModal');

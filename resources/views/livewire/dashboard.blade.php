@@ -47,7 +47,7 @@
                                 <div class="ms-auto text-muted">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <x-form.input id="txt_title" wire:model.live="filter.site_name" placeholder="{{ __('Site Name') }}" />
+                                        <x-form.input id="txt_title" wire:model.live="filter.site_name" placeholder="{{ __('Project') }}" />
 
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                         <td> {{ $site->project }} </td>
                                         <td> {{ $site->manager }} </td>
                                         <td> {{ $site->url }} </td>
-                                        <td> {{ date('H:m:s', strtotime($site?->last_check)) }} </td>
+                                        <td> {{ $site->last_check ? date('H:m:s', strtotime($site?->last_check)) :'' }} </td>
                                         <td>{{ $site->up_at ? date('d/m/y H:m:s', strtotime($site?->up_at)) : '' }} </td>
                                         <td> {{ $site->down_at ? date('d/m/y H:m:s', strtotime($site?->down_at)) : '' }} </td>
                                         <td>
@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="card-footer d-flex align-items-center">
-                            <p class="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+
                             <ul class="pagination m-0 ms-auto">
                                 {{ $sites->links() }}
                             </ul>

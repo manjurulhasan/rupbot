@@ -36,6 +36,48 @@ class SiteSeeder extends Seeder
                 'url'           => 'https://vicafe.ch',
                 'manager'       => 'Manjurul Hasan',
                 'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Vicafe Preprod Eshop',
+                'url'           => 'https://prepod.vicafe.ch',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Bot',
+                'url'           => 'https://rupbot.test',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Vicafe Eshop',
+                'url'           => 'https://vicafe.ch',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Facebook',
+                'url'           => 'https://facebook.com',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Google',
+                'url'           => 'https://google.com',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Mail trap',
+                'url'           => 'https://mailtrap.io',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
+            ],
+            [
+                'project'       => 'Github',
+                'url'           => 'https://github.com',
+                'manager'       => 'Manjurul Hasan',
+                'is_active'     => 1,
             ]
         ];
 

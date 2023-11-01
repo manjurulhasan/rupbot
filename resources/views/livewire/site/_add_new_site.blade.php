@@ -14,9 +14,21 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div>
+                <div class="mb-3">
                     <label class="form-label">Site URL</label>
-                    <textarea wire:model="site.url" class="form-control" rows="1"></textarea>
+                    <input type="text" wire:model="site.url" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Email 1</label>
+                    <input type="text" wire:model="email.0.email" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Email 2</label>
+                    <input type="text" wire:model="email.1.email" class="form-control">
                 </div>
             </div>
         </div>

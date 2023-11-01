@@ -15,4 +15,14 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
+
+    public function doLogout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->to('/login');
+
+    }
 }

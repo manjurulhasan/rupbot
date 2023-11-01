@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('site_id')->references('id')->on('sites')->onDelete('Cascade');
-            $table->string('email', 50)->nullale();
+            $table->string('email', 50)->nullable();
             $table->timestamps();
         });
     }
