@@ -84,7 +84,9 @@
                                                 <span class="badge bg-success me-1"></span> UP
                                             @endif
                                         </td>
-                                        <td class="text-end">  </td>
+                                        <td class="text-end">
+                                            <a href='{{route("show.logs", ["site_id" => $site->id])}}' >show</a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>

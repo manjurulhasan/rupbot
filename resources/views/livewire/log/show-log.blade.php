@@ -8,13 +8,52 @@
 
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-deck row-cards">
-                <div class="col-12">
+            <div class="row row-deck mb-2">
+                <div class="col-12 col-md-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header py-2">
+                            <h3 class="card-title">Sites Info</h3>
+                        </div>
+                        <div class="card-body border-bottom p-0">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>Project</td> <td> {{ $info->project }} </td>
+                                    <td>Status</td>
+                                    <td>
+                                        @if($info->status == 0)
+                                            <span class="badge bg-warning me-1"> Down</span>
+                                        @else
+                                            <span class="badge bg-success me-1"> UP </span>
+                                        @endif
+                                    </td>
+                                    <td>Manager</td> <td> {{ $info->manager }} </td>
+                                    <td>Check At</td> <td> {{ $info->last_check }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Up At</td> <td> {{ $info->up_at }} </td>
+                                    <td>Check At</td> <td> {{ $info->last_check }} </td>
+                                    <td>Down At</td><td> {{ $info->down_at }} </td>
+                                    <td>Emails</td>
+                                    <td>
+                                        @foreach($info->contacts as $contact)
+                                            {{$contact->email}},
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-deck">
+                <div class="col-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header py-2">
                             <h3 class="card-title">Sites Logs</h3>
                         </div>
-                        <div class="card-body border-bottom py-3">
+                        <div class="card-body border-bottom py-2">
                             <div class="d-flex">
                                 <div class="text-muted">
                                     Show
@@ -30,10 +69,12 @@
                                     entries
                                 </div>
                                 <div class="ms-auto text-muted">
-                                    Search:
-                                    <div class="ms-2 d-inline-block">
-                                        <x-form.input id="txt_title" wire:model.live="filter.url" placeholder="{{ __('URL') }}" />
-
+                                    <div class="d-flex">
+                                    <x-form.input id="datepicker-range" wire:model.live="filter.dates"
+                                                  class="form-control flatpickr-input active py-1"
+                                                   :error="$errors->first('dates')" placeholder="Date"
+                                                  autocomplete="off" />
+                                    <button class="btn btn-success btn-sm ms-2 py-0">Download Logs</button>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +110,7 @@
                                         </td>
                                         <td> {{ $log->code }} </td>
                                         <td> {{ $log->message }} </td>
-                                        <td class="text-end">  <a href='{{route("show.logs", ["site_id" => $log->site_id])}}' >show</a> </td>
+                                        <td class="text-end">  </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -89,9 +130,21 @@
 
 
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+@push('footer')
+    <script>
+        $("#datepicker-range").flatpickr(
+            {
+                mode: "range",
+                allowInput:true,
+                maxDate: "today",
+                dateFormat: "Y-m-d"
+            });
+</script>
+@endpush

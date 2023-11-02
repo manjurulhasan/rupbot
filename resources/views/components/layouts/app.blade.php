@@ -10,6 +10,7 @@
     <!-- CSS files -->
     <link href="{{ asset('assets/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
+      <link href="{{ asset('assets/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
      @stack('header')
   </head>
@@ -29,6 +30,7 @@
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('assets/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/flatpickr/flatpickr.min.js') }}"></script>
     @livewireScripts
     @stack('footer')
   </body>

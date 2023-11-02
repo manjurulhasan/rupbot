@@ -4,7 +4,7 @@
     'error' => false
 ])
 
-<div class="mb-1">
+<div class="mb-0">
     @if($label)
     <label class="form-label {{ $required }}" for="{{ $attributes['id'] ?? null }}">{{ $label }}</label>
     @endif

@@ -38,7 +38,7 @@
                   </span>
                 </a>
             </li>
-            <li class="nav-item {{ (request()->is('logs')) ? 'active' : '' }}">
+            <li class="nav-item {{ (request()->is('logs*')) ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('logs')}}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
                      <i data-feather="file-text"></i>
