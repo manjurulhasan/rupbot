@@ -74,7 +74,7 @@
                                                   class="form-control flatpickr-input active py-1"
                                                    :error="$errors->first('dates')" placeholder="Date"
                                                   autocomplete="off" />
-                                    <button class="btn btn-success btn-sm ms-2 py-0">Download Logs</button>
+                                    <button wire:click.prevent="download" class="btn btn-success btn-sm ms-2 py-0">Download Logs</button>
                                     </div>
                                 </div>
                             </div>

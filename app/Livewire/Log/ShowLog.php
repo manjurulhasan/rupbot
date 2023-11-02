@@ -62,6 +62,7 @@ class ShowLog extends BaseComponent
 
     public function download()
     {
-        return (new LogService())->downloadLogs();
+//        dd(211121);
+        return (new LogService())->downloadLogs($this->site_id, $this->filter);
     }
 }
