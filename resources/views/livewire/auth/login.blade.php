@@ -1,7 +1,7 @@
 <div>
 
     <div class="text-center mb-2">
-        <a href="/" class="navbar-brand navbar-brand-autodark"><img src="{{asset('assets/img/selise_logo.png')}}" height="60" alt="rupbot"></a>
+        <a href="/" class="navbar-brand navbar-brand-autodark"><img src="{{asset('assets/img/logo.png')}}" height="60" alt="rupbot"></a>
     </div>
     <div class="card card-md">
         <div class="card-body">
