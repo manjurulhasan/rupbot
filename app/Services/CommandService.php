@@ -27,7 +27,7 @@ class CommandService
             DB::beginTransaction();
             $mail = $data;
             $mail['contacts'] = $site->contacts;
-
+            $mail['site']     = $site;
             if($site->status == 1 && $data['status'] == 0){
                 MailSendJob::dispatch($mail);
             }
