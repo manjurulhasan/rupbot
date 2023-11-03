@@ -22,6 +22,7 @@ class Test extends BaseComponent
 //    }
     public function mail()
     {
+        $this->dispatch('notify', ['type' => 'success', 'title' => 'Product', 'message' => 'HI']);
         //  $websites = [
         //      'https://google.com',
         //      'https://vicafe.ch',
@@ -31,74 +32,74 @@ class Test extends BaseComponent
         //      'https://shajib.ch'
         //  ];
 
-        $websites = $this->getSites();
-        $headers = [
-            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-            'Referer' => 'https://google.com',
-        ];
+//        $websites = $this->getSites();
+//        $headers = [
+//            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+//            'Referer' => 'https://google.com',
+//        ];
+//
+//        $client = new Client([
+//            'headers' => $headers
+//        ]);
+//
+//        $requests = function ($websites) use ($client) {
+//            foreach ($websites as $url) {
+//                yield function() use ($client, $url) {
+//                    return $client->getAsync($url);
+//                };
+//            }
+//        };
 
-        $client = new Client([
-            'headers' => $headers
-        ]);
-
-        $requests = function ($websites) use ($client) {
-            foreach ($websites as $url) {
-                yield function() use ($client, $url) {
-                    return $client->getAsync($url);
-                };
-            }
-        };
-
-        $pool = new Pool($client, $requests($websites), [
-            'concurrency' => config('rupbot.concurrency'),
-            'fulfilled' => function ($response, $index) use ($websites) {
-                if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
-//                    $this->info($websites[$index] . " is up and running!");
-                    $data['last_check'] = now();
-                    $data['up_at']      = now();
-                    $data['status']     = 1;
-                    $data['code']       = $response->getStatusCode();
-                } else {
-
-                    $this->error($websites[$index] . " is down or inaccessible.");
-                    $data['last_check'] = now();
-                    $data['down_at']    = now();
-                    $data['status']     = 0;
-                    $data['code']       = $response->getStatusCode();
-                }
-                $this->updateSite($websites[$index] , $data);
-            },
-            'rejected' => function ($reason, $index) use ($websites) {
-                if($reason->getCode() !== 0){
+//        $pool = new Pool($client, $requests($websites), [
+//            'concurrency' => config('rupbot.concurrency'),
+//            'fulfilled' => function ($response, $index) use ($websites) {
+//                if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+////                    $this->info($websites[$index] . " is up and running!");
+//                    $data['last_check'] = now();
+//                    $data['up_at']      = now();
+//                    $data['status']     = 1;
+//                    $data['code']       = $response->getStatusCode();
+//                } else {
+//
+////                    $this->error($websites[$index] . " is down or inaccessible.");
+//                    $data['last_check'] = now();
+//                    $data['down_at']    = now();
+//                    $data['status']     = 0;
+//                    $data['code']       = $response->getStatusCode();
+//                }
+//                $this->updateSite($websites[$index] , $data);
+//            },
+//            'rejected' => function ($reason, $index) use ($websites) {
+//                if($reason->getCode() !== 0){
 //                    $status = $this->curlSite($websites[$index]);
 //                    if(!$status) {
-//                    $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
-                    $data['message'] = $reason->getResponse()->getReasonPhrase();
-                    $data['code']       = $reason->getCode();
-                    $data['status']     = 0;
-                    $data['last_check'] = now();
-                    $data['down_at']    = now();
+////                    $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
+//                    $data['message'] = $reason->getResponse()->getReasonPhrase();
+//                    $data['code']       = $reason->getCode();
+//                    $data['status']     = 0;
+//                    $data['last_check'] = now();
+//                    $data['down_at']    = now();
 //                    }else{
 //                        $data['last_check'] = now();
 //                        $data['up_at']      = now();
 //                        $data['status']     = 1;
 //                        $data['code']       = 200;
-//                        $this->info($websites[$index] . " is up and running!");
+////                        $this->info($websites[$index] . " is up and running!");
 //                    }
-                } else{
-//                    $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
-                    $data['code']       = $reason->getCode();
-                    $data['status']     = 0;
-                    $data['last_check'] = now();
-                    $data['down_at']    = now();
-                    $data['message'] = $reason->getHandlerContext()['error'];
-                }
-                $this->updateSite($websites[$index] , $data);
-            },
-        ]);
-
-        $promise = $pool->promise();
-        $promise->wait();
+//                } else{
+////                    $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
+//                    $data['code']       = $reason->getCode();
+//                    $data['status']     = 0;
+//                    $data['last_check'] = now();
+//                    $data['down_at']    = now();
+//                    $data['message'] = $reason->getHandlerContext()['error'];
+//                }
+//                $this->updateSite($websites[$index] , $data);
+//            },
+//        ]);
+//
+//        $promise = $pool->promise();
+//        $promise->wait();
     }
 
     private function getSites(){

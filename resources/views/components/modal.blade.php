@@ -39,8 +39,8 @@
                 <button class="btn btn-link link-secondary" data-bs-dismiss="modal">
                     Cancel
                 </button>
-                <button wire:click.prevent="{{$functionCall}}" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                    Create new report
+                <button wire:click.prevent="{{$functionCall}}" class="btn btn-primary ms-auto">
+                    Submit
                 </button>
             </div>
             @endif

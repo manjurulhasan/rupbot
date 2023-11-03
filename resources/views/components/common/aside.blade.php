@@ -31,17 +31,27 @@
             <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('dashboard')}}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i data-feather="home"></i>
+                       <i class="ti ti-home-2"></i>
                   </span>
                   <span class="nav-link-title">
                     Dashboard
                   </span>
                 </a>
             </li>
+            <li class="nav-item {{ (request()->is('sites*')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('sites')}}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="ti ti-apps"></i>
+                  </span>
+                    <span class="nav-link-title">
+                    Manage Site
+                  </span>
+                </a>
+            </li>
             <li class="nav-item {{ (request()->is('logs*')) ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('logs')}}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">
-                     <i data-feather="file-text"></i>
+                     <i class="ti ti-file"></i>
                   </span>
                     <span class="nav-link-title">
                     Logs

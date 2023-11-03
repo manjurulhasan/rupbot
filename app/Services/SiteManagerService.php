@@ -28,6 +28,7 @@ class SiteManagerService
                 }
             }
             DB::commit();
+            return true;
         }
         catch(Exception $ex)
         {
@@ -35,4 +36,53 @@ class SiteManagerService
             throw $ex;
         }
      }
+
+    public function showSite($site_id): array
+    {
+        $site = Site::query()->with(['contacts:id,site_id,email'])->find($site_id);
+        $res['site'] = [
+            'id'      => $site->id,
+            'project' => $site->project,
+            'url'     => $site->url,
+            'manager' => $site->manager
+        ];
+        $res['emails'] = [];
+        foreach ($site->contacts as $contact){
+            $res['emails'] []= [
+                'id' => $contact->id,
+                'email' => $contact->email,
+            ];
+        }
+        return $res;
+    }
+
+    public function deleteSite($site_id)
+    {
+        try {
+            return Site::query()->where('id',$site_id)->delete();
+        } catch (Exception $e){
+            throw $e;
+        }
+    }
+
+    public function updateSite($site, $emails)
+    {
+        try {
+            DB::beginTransaction();
+            Site::query()->where('id',$site['id'])->update($site);
+            foreach ($emails as $email){
+                $data['id']      = $email['id'];
+                $data['site_id'] = $site['id'];
+                $data['email']   = $email['email'];
+                Contact::updateOrCreate(
+                    ['id' => $data['id']], $data
+                );
+            }
+            DB::commit();
+            return true;
+        } catch(Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

@@ -1,18 +1,34 @@
 <div>
     @section('page-title')
-        Logs
+        Dashboard
     @endsection
     @section('header')
 
     @endsection
-
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <!-- Page title actions -->
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <button class="btn btn-primary d-none d-sm-inline-block" wire:click="openNewSiteModal" >
+                            <i class="ti ti-plus"></i>
+                            Create new site
+                        </button>
+                        @include('livewire.site._add_new_site')
+                        @include('livewire.site._edit_new_site')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Sites Logs</h3>
+                            <h3 class="card-title">Manage Sites</h3>
                         </div>
                         <div class="card-body border-bottom py-3">
                             <div class="d-flex">
@@ -32,7 +48,7 @@
                                 <div class="ms-auto text-muted">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <x-form.input id="txt_title" wire:model.live="filter.url" placeholder="{{ __('URL') }}" />
+                                        <x-form.input id="txt_title" wire:model.live="filter.site_name" placeholder="{{ __('Project') }}" />
 
                                     </div>
                                 </div>
@@ -43,34 +59,36 @@
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                 <tr>
+                                    <th>Project</th>
+                                    <th>Manager</th>
                                     <th>Domain</th>
-                                    <th>Check at</th>
-                                    <th>Up Time</th>
-                                    <th>Down Time</th>
-                                    <th>Status</th>
-                                    <th>Code</th>
-                                    <th>Message</th>
+                                    <th>Emails</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($logs as $log)
+                                @forelse($sites as $site)
                                     <tr>
-                                        <td> {{ $log->url }} </td>
-                                        <td> {{ $log->last_check ? date('H:m:s', strtotime($log?->last_check)) :'' }} </td>
-                                        <td>{{ $log->up_at ? date('d/m/y H:m:s', strtotime($log?->up_at)) : '' }} </td>
-                                        <td> {{ $log->down_at ? date('d/m/y H:m:s', strtotime($log?->down_at)) : '' }} </td>
+                                        <td> {{ $site->project }} </td>
+                                        <td> {{ $site->manager }} </td>
+                                        <td> {{ $site->url }} </td>
                                         <td>
-                                            @if($log->status == 0)
-                                                <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down
-                                            @else
-                                                <span class="badge bg-success me-1"></span><i class="ti ti-arrow-narrow-up"></i>UP
-                                            @endif
+                                            @foreach($site->contacts as $contact)
+                                                {{$contact->email}},
+                                            @endforeach
                                         </td>
-                                        <td> {{ $log->code }} </td>
-                                        <td> {{ $log->message }} </td>
+
                                         <td class="text-end">
-                                            <a class="btn btn-info btn-sm" href='{{route("show.logs", ["site_id" => $log->site_id])}}' title="Show Logs"> <i class="ti ti-file"></i></a>
+                                            <a class="btn btn-info btn-sm" href='{{route("show.logs", ["site_id" => $site->id])}}' title="Show Logs" >
+                                                <i class="ti ti-file"></i>
+                                            </a>
+                                            <button class="btn btn-success btn-sm" wire:click.prevent="openEditSiteModal({{$site->id}})" title="Edit Site">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" wire:click.prevent="deleteSite({{$site->id}})" title="Delete This Site">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+
                                         </td>
                                     </tr>
                                 @empty
@@ -85,7 +103,7 @@
                         <div class="card-footer d-flex align-items-center">
 
                             <ul class="pagination m-0 ms-auto">
-                                {{ $logs->links() }}
+                                {{ $sites->links() }}
                             </ul>
                         </div>
 
@@ -96,4 +114,5 @@
         </div>
     </div>
 
+    <x-notify/>
 </div>

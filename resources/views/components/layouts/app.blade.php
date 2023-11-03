@@ -10,7 +10,9 @@
     <!-- CSS files -->
     <link href="{{ asset('assets/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/tabler-icon/tabler-icons.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('assets/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
+      <link href="{{ asset('assets/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
      @stack('header')
   </head>
@@ -29,9 +31,10 @@
     </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
-    <script src="{{ asset('assets/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('assets/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('assets/sweetalert2/sweetalert2.min.js') }}"></script>
     @livewireScripts
     @stack('footer')
+    @include('components.layouts._alert-script')
   </body>
 </html>

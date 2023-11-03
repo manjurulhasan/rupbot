@@ -22,9 +22,9 @@
                                     <td>Status</td>
                                     <td>
                                         @if($info->status == 0)
-                                            <span class="badge bg-warning me-1"> Down</span>
+                                            <span class="badge bg-warning me-1"> <i class="ti ti-arrow-narrow-down"></i>Down</span>
                                         @else
-                                            <span class="badge bg-success me-1"> UP </span>
+                                            <span class="badge bg-success me-1"> <i class="ti ti-arrow-narrow-up"></i>UP </span>
                                         @endif
                                     </td>
                                     <td>Manager</td> <td> {{ $info->manager }} </td>
@@ -103,9 +103,9 @@
                                         <td> {{ $log->down_at ? date('d/m/y H:m:s', strtotime($log?->down_at)) : '' }} </td>
                                         <td>
                                             @if($log->status == 0)
-                                                <span class="badge bg-warning me-1"></span> Down
+                                                <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down
                                             @else
-                                                <span class="badge bg-success me-1"></span> UP
+                                                <span class="badge bg-success me-1"></span><i class="ti ti-arrow-narrow-up"></i>UP
                                             @endif
                                         </td>
                                         <td> {{ $log->code }} </td>

@@ -12,7 +12,7 @@
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <button class="btn btn-primary d-none d-sm-inline-block" wire:click="openNewSiteModal" >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                            <i class="ti ti-plus"></i>
                             Create new site
                         </button>
                         @include('livewire.site._add_new_site')
@@ -79,13 +79,15 @@
                                         <td> {{ $site->down_at ? date('d/m/y H:m:s', strtotime($site?->down_at)) : '' }} </td>
                                         <td>
                                             @if($site->status == 0)
-                                                <span class="badge bg-warning me-1"></span> Down
+                                                <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down
                                             @else
-                                                <span class="badge bg-success me-1"></span> UP
+                                                <span class="badge bg-success me-1"></span><i class="ti ti-arrow-narrow-up"></i>UP
                                             @endif
                                         </td>
                                         <td class="text-end">
-                                            <a href='{{route("show.logs", ["site_id" => $site->id])}}' >show</a>
+                                            <a class="btn btn-info btn-sm" href='{{route("show.logs", ["site_id" => $site->id])}}' title="show logs">
+                                                <i class="ti ti-file"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @empty
@@ -111,6 +113,5 @@
        </div>
    </div>
 
-
-
+   <x-notify/>
 </div>
