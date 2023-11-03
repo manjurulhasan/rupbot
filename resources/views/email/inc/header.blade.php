@@ -18,7 +18,7 @@
             <td width="48"></td>
             <td align="center">
                 <div style="width: 100px; margin-left: auto; margin-right: auto; text-align: center;">
-                    <img src="{{ asset('assets/images/bof-logo.png') }}" width="90" alt=""/>
+                    <img src="{{ asset('assets/img/selise_logo.png') }}" width="90" alt=""/>
                 </div>
             </td>
             <td width="48"></td>

@@ -19,18 +19,18 @@
                 <tr>
                     <td>
                         <div style="font-weight: 450;font-size: 14px;letter-spacing: 0.02em;color: #FFFFFF; display: flex; align-items: center;">
-                            <img src="{{ asset('assets/images/phone.png') }}"  width="16" height="16" alt="">
-                            <span style="margin-left: 8px;"> 66677788 </span>
+                            <img src="{{ asset('assets/img/phone.png') }}"  width="16" height="16" alt="">
+                            <span style="margin-left: 8px;"> 01781557594 </span>
                         </div>
                     </td>
                 </tr>
                 <tr><td height="8"></td></tr>
                 <tr>
                     <td>
-                        <a href="mailto:info.scss@gmail.com">
+                        <a href="manjurul.hasan@selisegroup.ch">
                             <div style="font-weight: 450;font-size: 14px;letter-spacing: 0.02em;color: #FFFFFF; display: flex; align-items: center;">
-                                <img src="{{ asset('assets/images/mail.png') }}"  width="16" height="16" alt="">
-                                <span style="margin-left: 8px; color: #ffffff;text-decoration: none;"> info.scss@gmail.com </span>
+                                <img src="{{ asset('assets/img/mail.png') }}"  width="16" height="16" alt="">
+                                <span style="margin-left: 8px; color: #ffffff;text-decoration: none;"> manjurul.hasan@selisegroup.ch </span>
                             </div>
                         </a>
                     </td>
@@ -39,7 +39,7 @@
                 <tr>
                     <td>
                         <div style="font-weight: 450;font-size: 14px;letter-spacing: 0.02em;color: #FFFFFF; display: flex; align-items: center;">
-                            <img src="{{ asset('assets/images/map-pin.png') }}"  width="16" height="16" alt="">
+                            <img src="{{ asset('assets/img/map-pin.png') }}"  width="16" height="16" alt="">
                             <span style="margin-left: 8px;"> Dhaka, Bangladesh </span>
                         </div>
                     </td>
@@ -62,19 +62,19 @@
                             <tr>
                                 <td>
                                     <a href="#">
-                                        <img src="{{ asset('assets/images/facebook.png') }}" width="20" height="20" alt="">
+                                        <img src="{{ asset('assets/img/facebook.png') }}" width="20" height="20" alt="">
                                     </a>
                                 </td>
                                 <td width="2"></td>
                                 <td>
                                     <a href="#">
-                                        <img src="{{ asset('assets/images/instagram.png') }}" width="20" height="20" alt="">
+                                        <img src="{{ asset('assets/img/instagram.png') }}" width="20" height="20" alt="">
                                     </a>
                                 </td>
                                 <td width="2"></td>
                                 <td>
                                     <a href="#">
-                                        <img src="{{ asset('assets/images/linkedin.png') }}" width="20" height="20" alt="">
+                                        <img src="{{ asset('assets/img/linkedin.png') }}" width="20" height="20" alt="">
                                     </a>
                                 </td>
                             </tr>

@@ -36,6 +36,7 @@ class MailSendJob implements ShouldQueue
                 Mail::to($contact->email)->send(new SiteDownMail($this->payload));
             }
         }
+//        Mail::to('shajib@gmail.com')->send(new SiteDownMail($this->payload));
 
     }
 }
