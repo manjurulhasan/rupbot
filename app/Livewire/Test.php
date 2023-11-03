@@ -21,7 +21,12 @@ class Test extends BaseComponent
 //        $mail = [];
 //        MailSendJob::dispatch($mail);
 //    }
-    public function mail()
+    public function mail(){
+        $url = "https://vicafe.ch";
+
+    }
+
+    public function mailx()
     {
 //        $this->dispatch('notify', ['type' => 'success', 'title' => 'Product', 'message' => 'HI']);
         //  $websites = [
