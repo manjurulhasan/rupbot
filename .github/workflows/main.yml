@@ -19,7 +19,7 @@ jobs:
           port: ${{ secrets.SERVER_TEAM_PORT }}
           KEY: ${{ secrets.SERVER_TEAM_KEY }}
           source: "."
-          target: "/var/www/html"
+          target: "/var/www/rupbot"
 
       - name: executing laravel deployement commands
         uses: appleboy/ssh-action@master
