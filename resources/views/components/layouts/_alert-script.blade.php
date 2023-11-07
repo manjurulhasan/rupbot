@@ -35,8 +35,8 @@
         text: "You won't be able to revert this",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#006A4E',
-        cancelButtonColor: '#fd625e',
+        confirmButtonColor: '#d1320b',
+        cancelButtonColor: '#522ce0',
         confirmButtonText: 'Yes, delete it'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -52,7 +52,8 @@
             title: 'Deleted',
             text: event.detail.message,
             icon: 'success',
-            confirmButtonColor: '#C9AC60'
+            confirmButtonText: 'Thank You!',
+            confirmButtonColor: '#0e5ddb'
         })
     });
     $(document).ready(function() {

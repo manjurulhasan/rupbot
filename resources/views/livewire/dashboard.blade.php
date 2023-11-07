@@ -7,8 +7,15 @@
     @endsection
     <div class="page-header d-print-none">
         <div class="container-xl">
-            <div class="row g-2 align-items-center">
+            <div class="row align-items-center">
                 <!-- Page title actions -->
+                <div class="col-auto">
+                    <!-- Page pre-title -->
+                    <div class="page-title shadow-animate p-1 px-2">
+                        Last Checked: {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->format('d/m/Y H:i:s') : '' }} , Next: {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->addMinute()->format('d/m/Y H:i:s') : '' }}
+                    </div>
+                </div>
+
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <button class="btn btn-primary d-none d-sm-inline-block" wire:click="openNewSiteModal" >
@@ -74,9 +81,11 @@
                                         <td> {{ $site->project }} </td>
                                         <td> {{ $site->manager }} </td>
                                         <td> {{ $site->url }} </td>
-                                        <td> {{ $site->last_check ? date('H:m:s', strtotime($site?->last_check)) :'' }} </td>
-                                        <td>{{ $site->up_at ? date('d/m/y H:m:s', strtotime($site?->up_at)) : '' }} </td>
-                                        <td> {{ $site->down_at ? date('d/m/y H:m:s', strtotime($site?->down_at)) : '' }} </td>
+                                        <td>
+                                            {{  $site->last_check ? Carbon\Carbon::parse($site->last_check)->format('d/m/Y H:i:s') : '' }}
+                                        </td>
+                                        <td>{{ $site->up_at ? Carbon\Carbon::parse($site?->up_at)->format('d/m/Y H:i:s') : '' }} </td>
+                                        <td> {{ $site->down_at ? Carbon\Carbon::parse($site?->down_at)->format('d/m/Y H:i:s') : '' }} </td>
                                         <td>
                                             @if($site->status == 0)
                                                 <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down

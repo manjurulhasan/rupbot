@@ -1,0 +1,66 @@
+.active{
+    background: #0d2b4e !important;
+}
+
+[data-bs-theme=dark] {
+    --tblr-body-bg: #0b1017;
+    --tblr-muted: #d1d6dc;
+}
+.shadow-animate {
+    box-shadow: 0px 0px 5px 2px #48abe0;
+    animation: shadows 1.5s infinite;
+    border-radius: 7px;
+}
+
+@keyframes shadows {
+    0% {
+        text-shadow: #48abe0 0 0 2px;
+        box-shadow: 0px 0px 5px 2px #48abe0;
+    }
+    20% {
+        text-shadow: #0bc098 0 0 5px;
+        box-shadow: 0px 0px 5px 2px #0bc098;
+    }
+    40% {
+        text-shadow: #1b5ed7 0 0 5px;
+        box-shadow: 0px 0px 5px 2px #1b5ed7;
+    }
+    60% {
+        text-shadow: #d3a60e 0 0 10px;
+        box-shadow: 0px 0px 5px 2px #d3a60e;
+    }
+    80% {
+        text-shadow: rebeccapurple 0 0 10px;
+        box-shadow: 0px 0px 5px 2px rebeccapuprle;
+    }
+    100% {
+        text-shadow: #48abe0 0 0 10px;
+        box-shadow: 0px 0px 5px 2px #48abe0;
+    }
+}
+
+.login-shadow-animate {
+    box-shadow: 0px 0px 10px 5px #48abe0;
+    animation: login-shadows 1.5s infinite;
+    border-radius: 10px;
+}
+
+@keyframes login-shadows {
+    0% {
+        text-shadow: #48abe0 0 0 10px;
+        box-shadow: 0px 0px 10px 5px #48abe0;
+    }
+    50% {
+        text-shadow: blueviolet 0 0 5px;
+        box-shadow: 0px 0px 10px 5px blueviolet;
+    }
+    75% {
+        text-shadow: rebeccapurple 0 0 5px;
+        box-shadow: 0px 0px 10px 5px rebeccapuprle;
+    }
+    100% {
+        text-shadow: #48abe0 0 0 5px;
+        box-shadow: 0px 0px 10px 5px #48abe0;
+    }
+}
+

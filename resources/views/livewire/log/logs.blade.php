@@ -57,9 +57,9 @@
                                 @forelse($logs as $log)
                                     <tr>
                                         <td> {{ $log->url }} </td>
-                                        <td> {{ $log->last_check ? date('H:m:s', strtotime($log?->last_check)) :'' }} </td>
-                                        <td>{{ $log->up_at ? date('d/m/y H:m:s', strtotime($log?->up_at)) : '' }} </td>
-                                        <td> {{ $log->down_at ? date('d/m/y H:m:s', strtotime($log?->down_at)) : '' }} </td>
+                                        <td> {{ $log->last_check ? Carbon\Carbon::parse($log?->last_check)->format('d/m/y H:i:s') : '' }} </td>
+                                        <td> {{ $log->up_at ? Carbon\Carbon::parse($log?->up_at)->format('d/m/y H:i:s') : '' }} </td>
+                                        <td> {{ $log->down_at ? Carbon\Carbon::parse($log?->down_at)->format('d/m/y H:i:s') : '' }} </td>
                                         <td>
                                             @if($log->status == 0)
                                                 <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down

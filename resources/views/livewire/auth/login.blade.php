@@ -4,8 +4,8 @@
         <a href="/" class="navbar-brand navbar-brand-autodark"><img src="{{asset('assets/img/logo.png')}}" height="60" alt="rupbot"></a>
     </div>
     <div class="card card-md">
-        <div class="card-body">
-            <h2 class="h2 text-center mb-4">Login to your account</h2>
+        <div class="card-body login-shadow-animate">
+            <h2 class="h2 text-center mb-4">Sign in to your account</h2>
             <p class="h2 text-center mb-4">
                 @if (session('error'))
                     <div class="alert alert-danger">
@@ -49,7 +49,10 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                    <button type="submit" class="btn btn-primary w-100" wire:loading.attr="disabled">
+                        <span wire:loading.remove>Sign in</span>
+                        <span wire:loading>Please Wait...</span>
+                    </button>
                 </div>
             </form>
         </div>

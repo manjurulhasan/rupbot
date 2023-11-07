@@ -10,6 +10,7 @@
     <!-- CSS files -->
     <link href="{{ asset('assets/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
     @stack('header')
 </head>

@@ -86,17 +86,17 @@ class ManageSite extends BaseComponent
     public function addNewSite()
     {
         $rules = [
-            'site.project' => 'required',
-            'site.manager' => 'required',
-            'site.url'     => 'required|unique:sites,url',
-            'emails.*.email' => 'required|email'
+            'site.project'   => 'required',
+            'site.manager'   => 'required',
+            'site.url'       => 'required|url|unique:sites,url',
+            'emails.*.email' => 'required|email:rfc,dns'
         ];
         $messages = [
             'site.project.required' => 'The Project field is required.',
             'site.manager.required' => 'The Manager field is required.',
             'site.url.required'     => 'The URL field is required.',
             'site.url.unique'       => 'The URL already exist.',
-            'emails.*.email'        => 'The Email field is required.',
+            'emails.*.email.required' => 'The Email field is required.',
             'emails.*.email.email'  => 'The Email address is not valid.'
         ];
         $this->validate($rules, $messages);
@@ -141,15 +141,15 @@ class ManageSite extends BaseComponent
         $rules = [
             'site.project'   => 'required',
             'site.manager'   => 'required',
-            'site.url'       => 'required|unique:sites,url,'.$this->site_id.',id',
-            'emails.*.email' => 'required|email'
+            'site.url'       => 'required|url|unique:sites,url,'.$this->site_id.',id',
+            'emails.*.email' => 'required|email:rfc,dns'
         ];
         $messages = [
             'site.project.required' => 'The Project field is required.',
             'site.manager.required' => 'The Manager field is required.',
             'site.url.required'     => 'The URL field is required.',
             'site.url.unique'       => 'The URL already exist.',
-            'emails.*.email'        => 'The Email field is required.',
+            'emails.*.email.required' => 'The Email field is required.',
             'emails.*.email.email'  => 'The Email address is not valid.'
         ];
         $this->validate($rules, $messages);

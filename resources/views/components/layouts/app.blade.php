@@ -13,6 +13,7 @@
     <link href="{{ asset('assets/tabler-icon/tabler-icons.min.css') }}" rel="stylesheet"/>
       <link href="{{ asset('assets/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
       <link href="{{ asset('assets/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+      <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
      @stack('header')
   </head>

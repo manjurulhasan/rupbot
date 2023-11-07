@@ -48,6 +48,19 @@
                   </span>
                 </a>
             </li>
+            @hasanyrole('Super-Admin')
+            <li class="nav-item {{ (request()->is('users*')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('users')}}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <i class="ti ti-users"></i>
+                  </span>
+                    <span class="nav-link-title">
+                    Manage User
+                  </span>
+                </a>
+            </li>
+            @endhasanyrole
+
             <li class="nav-item {{ (request()->is('logs*')) ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('logs')}}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block">

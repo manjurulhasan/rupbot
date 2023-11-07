@@ -14,4 +14,8 @@ Route::group(['middleware'=> ['auth']], function () {
     Route::get('/admin-emails', App\Livewire\Admin\EmailList::class)->name('emails');
     Route::post('/logout', App\Livewire\Dashboard::class)->name('logout');
     Route::get('/test', App\Livewire\Test::class)->name('test');
+
+    Route::group(['middleware' => ['role:Super-Admin']], function () {
+        Route::get('/users', App\Livewire\User\ManageUser::class)->name('users');
+    });
 });
