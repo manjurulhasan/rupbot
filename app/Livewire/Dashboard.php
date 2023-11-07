@@ -36,7 +36,7 @@ class Dashboard extends BaseComponent
     ]];
     public function render()
     {
-        $data['info'] = $this->rows->first();
+        $data['info'] = (new SiteManagerService())->lastCheck();
         $data['sites'] = $this->rows;
         return $this->view('livewire.dashboard', $data);
     }

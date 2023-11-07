@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Contact;
+use App\Models\LastCheck;
 use App\Models\Site;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -84,5 +85,10 @@ class SiteManagerService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function lastCheck()
+    {
+        return LastCheck::query()->select('last_check','next_check')->first();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\MailSendJob;
+use App\Models\LastCheck;
 use App\Models\Log;
 use App\Models\Site;
 use Exception;
@@ -13,10 +14,16 @@ class CommandService
 {
     public function getSites()
     {
+        $this->updateLastCheck();
         return Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
 //        return Cache::remember('sites', 60*60*24, function () {
 //            Site::query()->where('is_active', 1)->get()->pluck('url')->toArray();
 //        });
+    }
+
+    public function updateLastCheck()
+    {
+        return LastCheck::updateOrCreate([ 'id'=>1 ],['last_check' => now(), 'next_check' => now()->addMinute()]);
     }
 
      public function updateSite($url, $data)

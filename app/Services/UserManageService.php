@@ -26,8 +26,10 @@ class UserManageService
     {
         try
         {
-            $user = User::updateOrCreate(['email' => $form['email']], $form);
-            $user->assignRole($form['role']);
+            $insert = $form;
+            unset($insert['role']);
+            $user = User::updateOrCreate(['email' => $insert['email']], $insert);
+            $user->roles()->attach($form['role']);
             return $user;
         }
         catch(Exception $ex)

@@ -12,7 +12,7 @@
                 <div class="col-auto">
                     <!-- Page pre-title -->
                     <div class="page-title shadow-animate p-1 px-2">
-                        Last Checked: {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->format('d/m/Y H:i:s') : '' }} , Next: {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->addMinute()->format('d/m/Y H:i:s') : '' }}
+                        Last Checked: {{ $info?->last_check ? Carbon\Carbon::parse($info?->last_check)->format('d/m/Y H:i:s') : '' }} , Next: {{ $info?->last_check ? Carbon\Carbon::parse($info?->last_check)->addMinute()->format('d/m/Y H:i:s') : '' }}
                     </div>
                 </div>
 
