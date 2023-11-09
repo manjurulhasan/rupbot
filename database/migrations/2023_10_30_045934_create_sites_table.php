@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('last_check', $precision = 0)->nullable();
             $table->timestamp('up_at', $precision = 0)->nullable();
             $table->timestamp('down_at', $precision = 0)->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(2);
             $table->tinyInteger('is_active')->default(1);
             $table->smallInteger('code')->nullable();
             $table->text('message')->nullable();

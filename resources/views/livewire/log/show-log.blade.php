@@ -21,14 +21,20 @@
                                     <td>Project</td> <td> {{ $info->project }} </td>
                                     <td>Status</td>
                                     <td>
-                                        @if($info->status == 0)
-                                            <span class="badge bg-warning me-1"> <i class="ti ti-arrow-narrow-down"></i>Down</span>
+                                        @if($info->is_active)
+                                            @if($info->status == 0)
+                                                <span class="badge bg-warning me-1"> <i class="ti ti-arrow-narrow-down"></i>Down</span>
+                                            @elseif($info->status == 2)
+                                                <span class="badge bg-indigo me-1"></span>
+                                            @else
+                                                <span class="badge bg-success me-1"> <i class="ti ti-arrow-narrow-up"></i>UP </span>
+                                            @endif
                                         @else
-                                            <span class="badge bg-success me-1"> <i class="ti ti-arrow-narrow-up"></i>UP </span>
+                                            <span class="badge bg-warning me-1"><i class="ti ti-player-pause"></i>
                                         @endif
                                     </td>
                                     <td>Manager</td> <td> {{ $info->manager }} </td>
-                                    <td>Check At</td> <td> {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->format('d/m/y H:i:s') : ''}} </td>
+                                    <td>Check At</td> <td> {{ $info->last_check ? Carbon\Carbon::parse($info->last_check)->format('d/m/y H:i:s') : 'Not scanned yet'}} </td>
                                 </tr>
                                 <tr>
                                     <td>Up At</td> <td> {{ $info->up_at ?  Carbon\Carbon::parse($info->up_at)->format('d/m/y H:i:s') : '' }} </td>

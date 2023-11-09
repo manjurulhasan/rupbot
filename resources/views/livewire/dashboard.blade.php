@@ -82,13 +82,15 @@
                                         <td> {{ $site->manager }} </td>
                                         <td> {{ $site->url }} </td>
                                         <td>
-                                            {{  $site->last_check ? Carbon\Carbon::parse($site->last_check)->format('d/m/Y H:i:s') : '' }}
+                                            {{  $site->last_check ? Carbon\Carbon::parse($site->last_check)->format('d/m/Y H:i:s') : 'Not scanned yet' }}
                                         </td>
                                         <td>{{ $site->up_at ? Carbon\Carbon::parse($site?->up_at)->format('d/m/Y H:i:s') : '' }} </td>
                                         <td> {{ $site->down_at ? Carbon\Carbon::parse($site?->down_at)->format('d/m/Y H:i:s') : '' }} </td>
                                         <td>
                                             @if($site->status == 0)
                                                 <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down
+                                            @elseif($site->status == 2)
+                                                <span class="badge bg-indigo me-1"></span>
                                             @else
                                                 <span class="badge bg-success me-1"></span><i class="ti ti-arrow-narrow-up"></i>UP
                                             @endif

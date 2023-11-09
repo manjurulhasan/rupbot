@@ -45,7 +45,8 @@ class SiteManagerService
             'id'      => $site->id,
             'project' => $site->project,
             'url'     => $site->url,
-            'manager' => $site->manager
+            'manager' => $site->manager,
+            'is_active' => $site->is_active
         ];
         $res['emails'] = [];
         foreach ($site->contacts as $contact){

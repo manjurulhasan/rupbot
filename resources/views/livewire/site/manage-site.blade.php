@@ -63,12 +63,13 @@
                                     <th>Manager</th>
                                     <th>Domain</th>
                                     <th>Emails</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($sites as $site)
-                                    <tr>
+                                @forelse($sites as $key => $site)
+                                    <tr wire:key="{{$key+1}}">
                                         <td> {{ $site->project }} </td>
                                         <td> {{ $site->manager }} </td>
                                         <td> {{ $site->url }} </td>
@@ -76,6 +77,13 @@
                                             @foreach($site->contacts as $contact)
                                                 {{$contact->email}},
                                             @endforeach
+                                        </td>
+                                        <td>
+                                            @if($site->is_active)
+                                                <span class="text-success">Active</span>
+                                            @else
+                                                <span class="text-warning">Inactive</span>
+                                            @endif
                                         </td>
 
                                         <td class="text-end">

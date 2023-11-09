@@ -72,7 +72,8 @@ class ManageSite extends BaseComponent
         $this->site = [
         'project' => null,
         'url'     => null,
-        'manager' => null
+        'manager' => null,
+        'is_active' => 1
         ];
 
         $this->emails = [[
