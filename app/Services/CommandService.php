@@ -35,6 +35,9 @@ class CommandService
             $mail = $data;
             $mail['contacts'] = $site->contacts;
             $mail['site']     = $site;
+            if(($site->status == 1 && $data['status'] == 1) || ($site->status == 0 && $data['status'] == 0)){
+                return true;
+            }
             if($site->status == 1 && $data['status'] == 0){
                 MailSendJob::dispatch($mail);
             }
