@@ -45,9 +45,11 @@ class runCheck extends Command
              'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
              'Referer' => 'https://google.com',
          ];
+         $cacertPath = base_path('ssl/cacert.pem');
 
         $client = new Client([
-            'headers' => $headers
+            'headers' => $headers,
+            'verify' => $cacertPath,
         ]);
 
         $requests = function ($websites) use ($client) {
@@ -78,8 +80,8 @@ class runCheck extends Command
                 $this->service->updateSite($websites[$index] , $data);
             },
              'rejected' => function ($reason, $index) use ($websites) {
+                 $status = $this->curlSite($websites[$index]);
                 if($reason->getCode() !== 0){
-                    $status = $this->curlSite($websites[$index]);
                     if(!$status) {
                         $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
                         $data['message'] = $reason->getResponse()->getReasonPhrase();
@@ -95,12 +97,17 @@ class runCheck extends Command
                         $this->info($websites[$index] . " is up and running!");
                     }
                 } else{
-                    $this->error($websites[$index] . " ". $reason->getHandlerContext()['error']);
-                    $data['code']       = $reason->getCode();
-                    $data['status']     = 0;
-                    $data['last_check'] = now();
-                    $data['down_at']    = now();
-                    $data['message'] = $reason->getHandlerContext()['error'];
+                    if($status) {
+                        dd($websites[$index]);
+                    }
+                    else{
+                        $this->error($websites[$index] . " " . $reason->getHandlerContext()['error']);
+                        $data['code'] = $reason->getCode();
+                        $data['status'] = 0;
+                        $data['last_check'] = now();
+                        $data['down_at'] = now();
+                        $data['message'] = $reason->getHandlerContext()['error'];
+                    }
                 }
                  $this->service->updateSite($websites[$index] , $data);
             },
@@ -113,9 +120,14 @@ class runCheck extends Command
     private function curlSite($url)
     {
         $ch = curl_init($url);
+        $cacertPath = base_path('ssl/cacert.pem');
         $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36';
 
         curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+        curl_setopt($ch, CURLOPT_CAINFO, $cacertPath);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
 //        curl_setopt($ch, CURLOPT_REFERER, $referer);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
