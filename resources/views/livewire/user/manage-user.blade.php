@@ -88,7 +88,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center">{{ __('No Record Found!') }}</td>
+                                        <td colspan="4" class="text-center">{{ __('No Record Found!') }}</td>
                                     </tr>
                                 @endforelse
                                 </tbody>

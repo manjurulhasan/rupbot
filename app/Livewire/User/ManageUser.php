@@ -24,6 +24,8 @@ class ManageUser extends BaseComponent
 
     public $user_id = null;
 
+    private $service;
+
     public $filter = [
         'name' => ''
     ];
@@ -63,6 +65,7 @@ class ManageUser extends BaseComponent
     public function openNewUserModal()
     {
         $this->init();
+        $this->resetErrorBag();
         $this->dispatch('openUserModal');
     }
 
@@ -112,6 +115,7 @@ class ManageUser extends BaseComponent
 
     public function openEditUserModal($id)
     {
+        $this->resetErrorBag();
         $this->user_id = $id;
         $res = $this->service->show($id);
         $this->user = $res;

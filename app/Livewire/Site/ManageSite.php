@@ -127,6 +127,7 @@ class ManageSite extends BaseComponent
 
     public function openEditSiteModal($site_id)
     {
+        $this->resetErrorBag();
         $this->init();
         $this->site_id = $site_id;
         $res = $this->service->showSite($site_id);

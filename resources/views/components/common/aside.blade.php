@@ -49,16 +49,37 @@
                 </a>
             </li>
             @hasanyrole('Super-Admin')
-            <li class="nav-item {{ (request()->is('users*')) ? 'active' : '' }}">
-                <a class="nav-link" href="{{route('users')}}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <i class="ti ti-users"></i>
-                  </span>
-                    <span class="nav-link-title">
-                    Manage User
-                  </span>
-                </a>
-            </li>
+                <li class="nav-item {{ (request()->is('users*')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{route('users')}}" >
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <i class="ti ti-users"></i>
+                      </span>
+                        <span class="nav-link-title">
+                        Manage User
+                      </span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown {{ (request()->is('admin-emails*')) ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle show" style="cursor: pointer;" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <i class="ti ti-settings"></i>
+                      </span>
+                        <span class="nav-link-title">
+                        Setting
+                      </span>
+                    </a>
+                    <div class="dropdown-menu {{ (request()->is('admin-emails*')) ? 'show' : '' }}" data-bs-popper="static">
+                        <div class="dropdown-menu-columns">
+                            <div class="dropdown-menu-column">
+                                <a class="dropdown-item" href="{{route('emails')}}">
+                                     Admin Email
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
             @endhasanyrole
 
             <li class="nav-item {{ (request()->is('logs*')) ? 'active' : '' }}">
