@@ -32,7 +32,7 @@
                                 <div class="ms-auto text-muted">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <x-form.input id="txt_title" wire:model.live="filter.url" placeholder="{{ __('URL') }}" />
+                                        <x-form.input id="txt_title" wire:model.live.debounce.500ms="filter.url" placeholder="{{ __('URL') }}" />
 
                                     </div>
                                 </div>

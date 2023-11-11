@@ -10,11 +10,22 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class LogService
 {
+    public function getRows($filter)
+    {
+        try {
+            return Log::query()
+                ->when($filter['url'], fn($q,$url ) => $q->where('url' , 'like' , "%$url%") )
+                ->latest();
+        } catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
      public function downloadLogs($site_id, $filter)
      {
         try
         {
-            $logs = $this->getLogs($site_id, $filter);
+            $logs = $this->getLogs($site_id, $filter)->get();
             $spreadsheet = new Spreadsheet();
             $sheet       = $spreadsheet->getActiveSheet();
             $styleGlobal = [
@@ -91,17 +102,21 @@ class LogService
         }
      }
 
-    private function getLogs($site_id, $filter)
+    public function getLogs($site_id = null, $filter)
     {
-        return Log::query()
-            ->when($filter['dates'], function($q) use ($filter) {
-                $date   = explode(' to ', $filter['dates']);
-                $start  = date('Y-m-d', strtotime($date[0])) . ' 00:00:00';
-                $end    = date('Y-m-d', strtotime(end($date))) . ' 23:59:59';
-                return $q->whereBetween('created_at',[$start, $end]);
-            })
-            ->where('site_id', $site_id)
-            ->latest()
-            ->get();
+        try {
+            return Log::query()
+                ->when($filter['dates'], function($q) use ($filter) {
+                    $date   = explode(' to ', $filter['dates']);
+                    $start  = date('Y-m-d', strtotime($date[0])) . ' 00:00:00';
+                    $end    = date('Y-m-d', strtotime(end($date))) . ' 23:59:59';
+                    return $q->whereBetween('created_at',[$start, $end]);
+                })
+                ->where('site_id', $site_id)
+                ->latest();
+        } catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
 }

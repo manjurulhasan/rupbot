@@ -3,7 +3,6 @@
 namespace App\Livewire\Log;
 
 use App\Livewire\BaseComponent;
-use App\Models\Log;
 use App\Models\Site;
 use App\Services\LogService;
 use App\Traits\WithBulkActions;
@@ -20,6 +19,11 @@ class ShowLog extends BaseComponent
     public $site_id;
     public $filter = [ 'dates' => null ];
 
+    private $service;
+    public function boot()
+    {
+        $this->service = New LogService();
+    }
 
     public function mount($site_id)
     {
@@ -40,15 +44,7 @@ class ShowLog extends BaseComponent
 
     public function getRowsQueryProperty()
     {
-        $query = Log::query()
-            ->when($this->filter['dates'], function($q) {
-                $date   = explode(' to ',$this->filter['dates']);
-                $start  = date('Y-m-d', strtotime($date[0])) . ' 00:00:00';
-                $end    = date('Y-m-d', strtotime(end($date))) . ' 23:59:59';
-                return $q->whereBetween('created_at',[$start, $end]);
-            })
-            ->where('site_id', $this->site_id)
-            ->latest();
+        $query = $this->service->getLogs($this->site_id, $this->filter);
 
         return $this->applySorting($query);
     }
@@ -62,7 +58,6 @@ class ShowLog extends BaseComponent
 
     public function download()
     {
-//        dd(211121);
-        return (new LogService())->downloadLogs($this->site_id, $this->filter);
+        return $this->service->downloadLogs($this->site_id, $this->filter);
     }
 }

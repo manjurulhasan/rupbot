@@ -3,7 +3,7 @@
 namespace App\Livewire\Log;
 
 use App\Livewire\BaseComponent;
-use App\Models\Log;
+use App\Services\LogService;
 use App\Traits\WithBulkActions;
 use App\Traits\WithCachedRows;
 use App\Traits\WithPerPagePagination;
@@ -19,6 +19,11 @@ class Logs extends BaseComponent
     public $filter = [
         'url' => ''
     ];
+    private $service;
+    public function boot()
+    {
+        $this->service = New LogService();
+    }
 
     public function render()
     {
@@ -28,9 +33,7 @@ class Logs extends BaseComponent
 
     public function getRowsQueryProperty()
     {
-        $query = Log::query()
-            ->when($this->filter['url'], fn($q,$url ) => $q->where('url' , 'like' , "%$url%") )
-            ->latest();
+        $query = $this->service->getRows($this->filter);
 
         return $this->applySorting($query);
     }

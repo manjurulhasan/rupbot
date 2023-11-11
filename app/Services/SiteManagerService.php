@@ -10,7 +10,31 @@ use Illuminate\Support\Facades\DB;
 
 class SiteManagerService
 {
-     public function addSite($site, $emails)
+    public function getRows($filter): \Illuminate\Database\Eloquent\Builder
+    {
+        try
+        {
+        return Site::query()
+            ->with(['contacts:site_id,email'])
+            ->when($filter['site_name'], fn($q,$site_name ) => $q->where('project' , 'like' , "%$site_name%")->OrWhere('url', 'like', "%$site_name%")->OrWhere('manager', 'like', "%$site_name%") )
+            ->latest();
+        } catch (Exception $e){
+            throw $e;
+        }
+    }
+    public function getDashboardRows($filter): \Illuminate\Database\Eloquent\Builder
+    {
+        try
+        {
+            return Site::query()
+                ->when($filter['site_name'], fn($q, $site_name) => $q->where('project', 'like', "%$site_name%")->OrWhere('url', 'like', "%$site_name%")->OrWhere('manager', 'like', "%$site_name%"))
+                ->where('is_active', 1)
+                ->latest();
+        } catch (Exception $e){
+            throw $e;
+        }
+    }
+     public function addSite($site, $emails): bool
      {
         try
         {
@@ -40,22 +64,26 @@ class SiteManagerService
 
     public function showSite($site_id): array
     {
-        $site = Site::query()->with(['contacts:id,site_id,email'])->find($site_id);
-        $res['site'] = [
-            'id'      => $site->id,
-            'project' => $site->project,
-            'url'     => $site->url,
-            'manager' => $site->manager,
-            'is_active' => $site->is_active
-        ];
-        $res['emails'] = [];
-        foreach ($site->contacts as $contact){
-            $res['emails'] []= [
-                'id' => $contact->id,
-                'email' => $contact->email,
+        try {
+            $site = Site::query()->with(['contacts:id,site_id,email'])->find($site_id);
+            $res['site'] = [
+                'id'      => $site->id,
+                'project' => $site->project,
+                'url'     => $site->url,
+                'manager' => $site->manager,
+                'is_active' => $site->is_active
             ];
+            $res['emails'] = [];
+            foreach ($site->contacts as $contact){
+                $res['emails'] []= [
+                    'id' => $contact->id,
+                    'email' => $contact->email,
+                ];
+            }
+            return $res;
+        } catch (Exception $e){
+            throw $e;
         }
-        return $res;
     }
 
     public function deleteSite($site_id)
@@ -67,7 +95,7 @@ class SiteManagerService
         }
     }
 
-    public function updateSite($site, $emails)
+    public function updateSite($site, $emails): bool
     {
         try {
             DB::beginTransaction();
@@ -90,6 +118,10 @@ class SiteManagerService
 
     public function lastCheck()
     {
-        return LastCheck::query()->select('last_check','next_check')->first();
+        try {
+            return LastCheck::query()->select('last_check','next_check')->first();
+        } catch(Exception $e) {
+            throw $e;
+        }
     }
 }

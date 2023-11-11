@@ -144,8 +144,6 @@ class ManageUser extends BaseComponent
         } catch (Exception $e) {
             $this->dispatch('notify', ['type' => 'error', 'title' => 'Update User', 'message' => $e->getMessage()]);
         }
-
-//        dd($this->user);
     }
 
     public function delete($id)

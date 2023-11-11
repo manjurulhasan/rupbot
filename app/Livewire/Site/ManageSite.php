@@ -3,7 +3,6 @@
 namespace App\Livewire\Site;
 
 use App\Livewire\BaseComponent;
-use App\Models\Site;
 use App\Services\SiteManagerService;
 use App\Traits\WithBulkActions;
 use App\Traits\WithCachedRows;
@@ -52,10 +51,7 @@ class ManageSite extends BaseComponent
 
     public function getRowsQueryProperty()
     {
-        $query = Site::query()
-            ->with(['contacts:site_id,email'])
-            ->when($this->filter['site_name'], fn($q,$site_name ) => $q->where('project' , 'like' , "%$site_name%") )
-            ->latest();
+        $query = $this->service->getRows($this->filter);
 
         return $this->applySorting($query);
     }
@@ -102,7 +98,7 @@ class ManageSite extends BaseComponent
         ];
         $this->validate($rules, $messages);
         try {
-            $res = (new SiteManagerService())->addSite($this->site, $this->emails);
+            $res = $this->service->addSite($this->site, $this->emails);
             if($res){
                 $this->dispatch('notify', ['type' => 'success', 'title' => 'New Site', 'message' => 'New site successfully added']);
             }else{

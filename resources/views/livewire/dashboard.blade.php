@@ -57,14 +57,14 @@
                                 <div class="ms-auto text-muted">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <x-form.input id="txt_title" wire:model.live="filter.site_name" placeholder="{{ __('Project') }}" />
+                                        <x-form.input id="txt_title" wire:model.live.debounce.500ms="filter.site_name" placeholder="{{ __('Project') }}" />
 
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive" wire:poll.30s>
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                 <tr>

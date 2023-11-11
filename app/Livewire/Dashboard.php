@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Site;
 use App\Services\SiteManagerService;
 use App\Traits\WithBulkActions;
 use App\Traits\WithCachedRows;
@@ -34,19 +33,22 @@ class Dashboard extends BaseComponent
         'id' => 0,
         'email'   => null,
     ]];
+    private $service;
+    public function boot()
+    {
+        $this->service = New SiteManagerService();
+    }
+
     public function render()
     {
-        $data['info'] = (new SiteManagerService())->lastCheck();
+        $data['info'] = $this->service->lastCheck();
         $data['sites'] = $this->rows;
         return $this->view('livewire.dashboard', $data);
     }
 
     public function getRowsQueryProperty()
     {
-        $query = Site::query()
-            ->when($this->filter['site_name'], fn($q,$site_name ) => $q->where('project' , 'like' , "%$site_name%") )
-            ->where('is_active', 1)
-            ->latest();
+        $query = $this->service->getDashboardRows($this->filter);
 
         return $this->applySorting($query);
     }
@@ -92,7 +94,7 @@ class Dashboard extends BaseComponent
         ];
         $this->validate($rules, $messages);
         try {
-            $res = (new SiteManagerService())->addSite($this->site, $this->emails);
+            $res = $this->service->addSite($this->site, $this->emails);
             if($res){
                 $this->dispatch('notify', ['type' => 'success', 'title' => 'New Site', 'message' => 'New site successfully added']);
             }else{
