@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
 
         foreach ( $users as $user ) {
             $user = User::updateOrCreate(['email' => $user['email']], $user );
+            $user->roles()->attach(1);
         }
     }
 }

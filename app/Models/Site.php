@@ -18,6 +18,7 @@ class Site extends Model
         'down_at',
         'status',
         'code',
+        'duration',
         'message',
         'is_active',
         'created_at',

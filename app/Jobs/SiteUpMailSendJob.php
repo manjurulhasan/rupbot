@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\SiteDownMail;
+use App\Mail\SiteUpMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,12 +11,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class MailSendJob implements ShouldQueue
+class SiteUpMailSendJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     protected $payload;
-
     /**
      * Create a new job instance.
      */
@@ -30,13 +28,12 @@ class MailSendJob implements ShouldQueue
      */
     public function handle(): void
     {
+//        Mail::to('shajib@gmail.com')->send(new SiteUpMail($this->payload));
         $contacts = $this->payload['contacts'];
         if(count($contacts) > 0){
             foreach ($contacts as $contact){
-                Mail::to($contact['email'])->send(new SiteDownMail($this->payload));
+                Mail::to($contact['email'])->send(new SiteUpMail($this->payload));
             }
         }
-//        Mail::to('shajib@gmail.com')->send(new SiteDownMail($this->payload));
-
     }
 }

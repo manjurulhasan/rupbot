@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('last_check', $precision = 0)->nullable();
             $table->timestamp('up_at', $precision = 0)->nullable();
             $table->timestamp('down_at', $precision = 0)->nullable();
+            $table->time('duration')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->smallInteger('code')->nullable();
             $table->timestamps();

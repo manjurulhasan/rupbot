@@ -84,7 +84,7 @@ class runCheck extends Command
                 if($reason->getCode() !== 0){
                     if(!$status) {
                         $this->error($websites[$index] . " " . $reason->getResponse()->getReasonPhrase());
-                        $data['message'] = $reason->getResponse()->getReasonPhrase();
+                        $data['message']    = $reason->getResponse()->getReasonPhrase();
                         $data['code']       = $reason->getCode();
                         $data['status']     = 0;
                         $data['last_check'] = now();
@@ -98,7 +98,10 @@ class runCheck extends Command
                     }
                 } else{
                     if($status) {
-                        dd($websites[$index]);
+                        $data['last_check'] = now();
+                        $data['up_at']      = now();
+                        $data['status']     = 1;
+                        $data['code']       = 200;
                     }
                     else{
                         $this->error($websites[$index] . " " . $reason->getHandlerContext()['error']);

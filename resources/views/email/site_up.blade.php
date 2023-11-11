@@ -9,25 +9,27 @@
                 </div>
                 <div style="height: 20px;"></div>
                 <div>
-                    <p style="font-size: 12px; font-weight: bold;">
-                        We just detected an incident on <span style="font-weight: bold;"> {{  $data['site']['url'] ?? '' }} </span>. Your service is currently down.
-                    </p>
-                    <p>
-                        We will alert you when it's up again.
+                    <p style="font-size: 12px;">
+                        The latest incident has been resolved and your <span style="font-weight: bold;">{{  $data['site']['url'] ?? '' }} </span> is up again. Good job!
                     </p>
                     <p style="font-size: 10px;">Checked URL: <br/>
-                        <span style="font-size: 12px; font-weight: bold;"> <a href="{{ $data['site']['url']}}"> {{  $data['site']['url'] ?? '' }} </a> </span>
+                        <span style="font-size: 12px; font-weight: bold;"><a href="{{ $data['site']['url']}}"> {{  $data['site']['url'] ?? '' }} </a></span>
+                    </p>
+                    <p style="font-size: 8px;">Resolved at: <br/>
+                        <span style="font-size: 12px; font-weight: bold;"> {{  $data['up_at'] ?? '' }} </span>
                     </p>
                     <p style="font-size: 10px;">Incident started at: <br/>
-                        <span style="font-size: 12px; font-weight: bold;">{{  $data['down_at'] ?? '' }} </span>
+                        <span style="font-size: 12px; font-weight: bold;">{{  $data['site']['down_at'] ?? '' }} </span>
                     </p>
                     <p style="font-size: 10px;">Error Code : <br/>
-                        <span style="font-size: 12px; font-weight: bold;"> {{  $data['code'] ?? '' }} </span>
+                        <span style="font-size: 12px; font-weight: bold;"> {{  $data['site']['code'] ?? '' }} </span>
                     </p>
                     <p style="font-size: 10px;">Root cause : <br/>
-                        <span style="font-size: 12px; font-weight: bold;"> {{  $data['message'] ?? '' }} </span>
+                        <span style="font-size: 12px; font-weight: bold;"> {{  $data['site']['message'] ?? '' }} </span>
                     </p>
-
+                    <p style="font-size: 10px;">Duration : <br/>
+                        <span style="font-size: 12px; font-weight: bold;">{{  $data['duration'] ?? '' }} </span>
+                    </p>
                 </div>
 
                 <div style="height: 35px;"></div>
