@@ -31,9 +31,12 @@ class SiteUpMailSendJob implements ShouldQueue
 //        Mail::to('shajib@gmail.com')->send(new SiteUpMail($this->payload));
         $contacts = $this->payload['contacts'];
         if(count($contacts) > 0){
+            $emails = [];
             foreach ($contacts as $contact){
-                Mail::to($contact['email'])->send(new SiteUpMail($this->payload));
+                $emails []= $contact['email'];
             }
+            $admin_emails =  count($this->payload['admin_emails']) > 0 ? $this->payload['admin_emails'] : config('rupbot.admin_email');
+            Mail::to($emails)->cc($admin_emails)->send(new SiteUpMail($this->payload));
         }
     }
 }

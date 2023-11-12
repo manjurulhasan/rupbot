@@ -32,9 +32,12 @@ class MailSendJob implements ShouldQueue
     {
         $contacts = $this->payload['contacts'];
         if(count($contacts) > 0){
+            $emails = [];
             foreach ($contacts as $contact){
-                Mail::to($contact['email'])->send(new SiteDownMail($this->payload));
+                $emails []= $contact['email'];
             }
+            $admin_emails =  count($this->payload['admin_emails']) > 0 ? $this->payload['admin_emails'] : config('rupbot.admin_email');
+            Mail::to($emails)->cc($admin_emails)->send(new SiteDownMail($this->payload));
         }
 //        Mail::to('shajib@gmail.com')->send(new SiteDownMail($this->payload));
 

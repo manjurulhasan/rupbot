@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AdminEmail;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 
 class AdminEmailService
 {
@@ -25,7 +26,9 @@ class AdminEmailService
     {
         try
         {
-            return  AdminEmail::updateOrCreate(['email' => $form['email']], $form);
+            $admin = AdminEmail::updateOrCreate(['email' => $form['email']], $form);
+            Cache::forget('admin_emails');
+            return $admin;
         }
         catch(Exception $ex)
         {
@@ -37,7 +40,9 @@ class AdminEmailService
     {
         try
         {
-            return AdminEmail::where('id', $id)->delete();
+            $delete = AdminEmail::where('id', $id)->delete();
+            Cache::forget('admin_emails');
+            return $delete;
         }
         catch(Exception $ex)
         {
@@ -65,9 +70,9 @@ class AdminEmailService
     {
         try
         {
-
             $email = AdminEmail::find($update_data['id']);
             $email->update($update_data);
+            Cache::forget('admin_emails');
             return $email;
         }
         catch(Exception $ex)
