@@ -45,11 +45,12 @@
                                 <tr>
                                     <th>Domain</th>
                                     <th>Check at</th>
-                                    <th>Up Time</th>
-                                    <th>Down Time</th>
+                                    <th>Resolved at</th>
+                                    <th>Incident started at</th>
+                                    <th>Duration</th>
                                     <th>Status</th>
                                     <th>Code</th>
-                                    <th>Message</th>
+                                    <th>Root cause</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -60,6 +61,7 @@
                                         <td> {{ $log->last_check ? Carbon\Carbon::parse($log?->last_check)->format('d/m/y H:i:s') : '' }} </td>
                                         <td> {{ $log->up_at ? Carbon\Carbon::parse($log?->up_at)->format('d/m/y H:i:s') : '' }} </td>
                                         <td> {{ $log->down_at ? Carbon\Carbon::parse($log?->down_at)->format('d/m/y H:i:s') : '' }} </td>
+                                        <td> {{ $log->duration }}</td>
                                         <td>
                                             @if($log->status == 0)
                                                 <span class="badge bg-warning me-1"></span><i class="ti ti-arrow-narrow-down"></i>Down

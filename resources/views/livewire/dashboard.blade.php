@@ -72,8 +72,8 @@
                                     <th>Manager</th>
                                     <th>Domain</th>
                                     <th>Check at</th>
-                                    <th>Up Time</th>
-                                    <th>Down Time</th>
+                                    <th>Resolved at</th>
+                                    <th>Incident started at</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>

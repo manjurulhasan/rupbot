@@ -44,7 +44,7 @@ class LogService
                 ],
             ];
             $spreadsheet->getDefaultStyle()->getFont()->setSize(14);
-            $sheet->getStyle('A1:G1')->applyFromArray($styleGlobal);
+            $sheet->getStyle('A1:H1')->applyFromArray($styleGlobal);
             $sheet->getColumnDimension('A')->setWidth(35);
             $sheet->getColumnDimension('B')->setWidth(20);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -52,14 +52,16 @@ class LogService
             $sheet->getColumnDimension('E')->setWidth(15);
             $sheet->getColumnDimension('F')->setWidth(10);
             $sheet->getColumnDimension('G')->setWidth(40);
+            $sheet->getColumnDimension('H')->setWidth(40);
 
             $sheet->setCellValue('A1', 'URL');
             $sheet->setCellValue('B1', 'Check At');
-            $sheet->setCellValue('C1', 'Up At');
-            $sheet->setCellValue('D1', 'Down At');
-            $sheet->setCellValue('E1', 'Status');
-            $sheet->setCellValue('F1', 'Code');
-            $sheet->setCellValue('G1', 'Message');
+            $sheet->setCellValue('C1', 'Resolved at');
+            $sheet->setCellValue('D1', 'Incident started at');
+            $sheet->setCellValue('E1', 'Duration');
+            $sheet->setCellValue('F1', 'Status');
+            $sheet->setCellValue('G1', 'Code');
+            $sheet->setCellValue('H1', 'Root cause');
 
             $row = 2;
             foreach ($logs as $key => $log){
@@ -73,9 +75,10 @@ class LogService
                 }else{
                     $status = 'Down';
                 }
-                $sheet->setCellValue('E'.$row, $status);
-                $sheet->setCellValue('F'.$row, $log->code);
-                $sheet->setCellValue('G'.$row, $log->message);
+                $sheet->setCellValue('E'.$row, $log->duration);
+                $sheet->setCellValue('F'.$row, $status);
+                $sheet->setCellValue('G'.$row, $log->code);
+                $sheet->setCellValue('H'.$row, $log->message);
                 $row++;
             }
 
