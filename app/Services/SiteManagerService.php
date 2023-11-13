@@ -40,6 +40,8 @@ class SiteManagerService
         try
         {
             DB::beginTransaction();
+            Cache::forget('sites');
+
             $site = Site::firstOrCreate(
                 ['url' => $site['url']],
                 $site
@@ -54,7 +56,6 @@ class SiteManagerService
                 }
             }
             DB::commit();
-            Cache::forget('sites');
             return true;
         }
         catch(Exception $ex)
