@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\LastCheck;
 use App\Models\Site;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SiteManagerService
@@ -53,6 +54,7 @@ class SiteManagerService
                 }
             }
             DB::commit();
+            Cache::forget('sites');
             return true;
         }
         catch(Exception $ex)
@@ -89,7 +91,9 @@ class SiteManagerService
     public function deleteSite($site_id)
     {
         try {
-            return Site::query()->where('id',$site_id)->delete();
+            $site = Site::query()->where('id',$site_id)->delete();
+            Cache::forget('sites');
+            return $site;
         } catch (Exception $e){
             throw $e;
         }
@@ -109,6 +113,7 @@ class SiteManagerService
                 );
             }
             DB::commit();
+            Cache::forget('sites');
             return true;
         } catch(Exception $e) {
             DB::rollBack();
