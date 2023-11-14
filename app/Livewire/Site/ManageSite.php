@@ -83,18 +83,18 @@ class ManageSite extends BaseComponent
     public function addNewSite()
     {
         $rules = [
-            'site.project'   => 'required',
-            'site.manager'   => 'required',
-            'site.url'       => 'required|url|unique:sites,url',
+            'site.project'   => 'required|max:50',
+            'site.manager'   => 'required|max:50',
+            'site.url'       => 'required|max:80|url|unique:sites,url',
             'emails.*.email' => 'required|email:rfc,dns'
         ];
         $messages = [
-            'site.project.required' => 'The Project field is required.',
-            'site.manager.required' => 'The Manager field is required.',
-            'site.url.required'     => 'The URL field is required.',
-            'site.url.unique'       => 'The URL already exist.',
+            'site.project.required'   => 'The Project field is required.',
+            'site.manager.required'   => 'The Manager field is required.',
+            'site.url.required'       => 'The URL field is required.',
+            'site.url.unique'         => 'The URL already exist.',
             'emails.*.email.required' => 'The Email field is required.',
-            'emails.*.email.email'  => 'The Email address is not valid.'
+            'emails.*.email.email'    => 'The Email address is not valid.'
         ];
         $this->validate($rules, $messages);
         try {
@@ -137,18 +137,18 @@ class ManageSite extends BaseComponent
     public function updateSite()
     {
         $rules = [
-            'site.project'   => 'required',
-            'site.manager'   => 'required',
-            'site.url'       => 'required|url|unique:sites,url,'.$this->site_id.',id',
+            'site.project'   => 'required|max:50',
+            'site.manager'   => 'required|max:50',
+            'site.url'       => 'required|max:80|url|unique:sites,url,'.$this->site_id.',id',
             'emails.*.email' => 'required|email:rfc,dns'
         ];
         $messages = [
-            'site.project.required' => 'The Project field is required.',
-            'site.manager.required' => 'The Manager field is required.',
-            'site.url.required'     => 'The URL field is required.',
-            'site.url.unique'       => 'The URL already exist.',
+            'site.project.required'   => 'The Project field is required.',
+            'site.manager.required'   => 'The Manager field is required.',
+            'site.url.required'       => 'The URL field is required.',
+            'site.url.unique'         => 'The URL already exist.',
             'emails.*.email.required' => 'The Email field is required.',
-            'emails.*.email.email'  => 'The Email address is not valid.'
+            'emails.*.email.email'    => 'The Email address is not valid.'
         ];
         $this->validate($rules, $messages);
         try {

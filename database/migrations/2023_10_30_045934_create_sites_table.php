@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('project', 50)->nullable();
-            $table->string('url', 50)->nullable();
+            $table->string('url', 80)->nullable();
             $table->string('manager', 50)->nullable();
             $table->timestamp('last_check', $precision = 0)->nullable();
             $table->timestamp('up_at', $precision = 0)->nullable();

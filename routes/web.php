@@ -13,6 +13,7 @@ Route::group(['middleware'=> ['auth']], function () {
     Route::get('/logs/{site_id}', App\Livewire\Log\ShowLog::class)->name('show.logs');
     Route::post('/logout', App\Livewire\Dashboard::class)->name('logout');
     Route::get('/test', App\Livewire\Test::class)->name('test');
+    Route::get('/profile', App\Livewire\Profile::class)->name('profile');
 
     Route::group(['middleware' => ['role:Super-Admin']], function () {
         Route::get('/users', App\Livewire\User\ManageUser::class)->name('users');

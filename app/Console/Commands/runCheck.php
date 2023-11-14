@@ -43,7 +43,7 @@ class runCheck extends Command
          $websites = $this->service->getSites();
          $headers = [
              'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-             'Referer' => 'https://google.com',
+             'Referer' => config('rupbot.referer'),
          ];
          $cacertPath = base_path('ssl/cacert.pem');
 
@@ -122,6 +122,7 @@ class runCheck extends Command
 
     private function curlSite($url)
     {
+        $referer = config('rupbot.referer');
         $ch = curl_init($url);
         $cacertPath = base_path('ssl/cacert.pem');
         $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36';
@@ -130,7 +131,7 @@ class runCheck extends Command
         curl_setopt($ch, CURLOPT_CAINFO, $cacertPath);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-//        curl_setopt($ch, CURLOPT_REFERER, $referer);
+        curl_setopt($ch, CURLOPT_REFERER, $referer);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
         curl_setopt($ch, CURLOPT_NOBODY, true);

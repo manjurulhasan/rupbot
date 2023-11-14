@@ -69,7 +69,6 @@
                                 <thead>
                                 <tr>
                                     <th>Project</th>
-                                    <th>Manager</th>
                                     <th>Domain</th>
                                     <th>Check at</th>
                                     <th>Resolved at</th>
@@ -82,7 +81,6 @@
                                 @forelse($sites as $site)
                                     <tr>
                                         <td> {{ $site->project }} </td>
-                                        <td> {{ $site->manager }} </td>
                                         <td> {{ $site->url }} </td>
                                         <td>
                                             {{  $site->last_check ? Carbon\Carbon::parse($site->last_check)->format('d/m/Y H:i:s') : 'Not scanned yet' }}

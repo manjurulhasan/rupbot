@@ -89,4 +89,19 @@ class UserManageService
             throw $ex;
         }
     }
+
+    public function updateProfile($profile)
+    {
+        try {
+            if(empty($profile['password'])) {
+                unset($profile['password']);
+            }else{
+                $profile['password'] = Hash::make($profile['password']);
+            }
+            return User::where('id', auth()->user()->id)->update($profile);
+        } catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
 }
