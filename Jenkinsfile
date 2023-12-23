@@ -25,7 +25,7 @@ pipeline {
         stage("Build"){
             steps{
                 echo "code Building"
-                sh "docker build -t rupbot_app ."
+                sh "docker-compose build"
             }
         }
         stage("Push To Docker"){
