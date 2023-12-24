@@ -25,7 +25,7 @@ pipeline {
         stage("Build"){
             steps{
                 echo "code Building"
-                sh "docker-compose build"
+                
             }
         }
         stage("Push To Docker"){
@@ -36,7 +36,7 @@ pipeline {
         stage("Deploy"){
             steps{
                 echo "Deploying in server"
-                sh "docker-compose down && docker-compose up -d"
+               
             }
         }
     }
