@@ -1,9 +1,13 @@
 version: "3.9"
+#Docker Networks
+networks:
+  app_network:
+    driver: bridge
 services:
 
   #PHP Service
-  rupbot_app:
-    container_name: rupbot_app
+  app:
+    container_name: app
     build:
       context: .
       target: php
@@ -16,9 +20,10 @@ services:
        - APP_ENV=${APP_ENV}
     volumes:
       - ./:/var/www
-    depends_on:
-      - mysql_db
-      - webserver
+      # - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      # - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    ports:
+      - "9001:9000"
     networks:
       - app_network
 
@@ -33,6 +38,10 @@ services:
     tty: true
     ports:
       - "8081:80"
+    links:
+      - app
+    depends_on:
+      - app
     networks:
       - app_network
 
@@ -54,11 +63,6 @@ services:
       MYSQL_PASSWORD: bof_erp_password
     networks:
       - app_network
-
-#Docker Networks
-networks:
-  app_network:
-    driver: bridge
 volumes:
   dbdata:
     driver: local
