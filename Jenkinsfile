@@ -21,6 +21,7 @@ pipeline {
         }
         stage("Sonarqube Analysis") {
             steps {
+                echo "Sonarqube disabled"
                 // withSonarQubeEnv('sonar-server') {
                 //     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=rupbot \
                 //     -Dsonar.projectKey=rupbot'''
