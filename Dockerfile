@@ -38,6 +38,6 @@ RUN mkdir -p ./storage/framework/{cache, testing, sessions, views}
 RUN mkdir -p ./storage/framework/bootstrap
 RUN mkdir -p ./storage/framework/bootstrap/cache
 RUN ["chmod", "+x", "docker/entrypoint.sh"]
-USER www-data;
+#USER www-data;
 # Run the entrypoint file.
 ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
