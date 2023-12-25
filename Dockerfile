@@ -19,10 +19,6 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-external-gd
 RUN docker-php-ext-install gd
 
-# Copy configuration files.
-#COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
-#COPY ./docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
-
 # Set working directory
 WORKDIR /var/www
 
