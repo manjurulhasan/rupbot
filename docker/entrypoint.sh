@@ -28,20 +28,20 @@ php artisan migrate
 
 # Fix files ownership.
 chown -R www-data .
-chown -R www-data /app/storage
-chown -R www-data /app/storage/logs
-chown -R www-data /app/storage/framework
-chown -R www-data /app/storage/framework/sessions
-chown -R www-data /app/bootstrap
-chown -R www-data /app/bootstrap/cache
+chown -R www-data /var/www/storage
+chown -R www-data /var/www/storage/logs
+chown -R www-data /var/www/storage/framework
+chown -R www-data /var/www/storage/framework/sessions
+chown -R www-data /var/www/bootstrap
+chown -R www-data /var/www/bootstrap/cache
 
 # Set correct permission.
-chmod -R 775 /app/storage
-chmod -R 775 /app/storage/logs
-chmod -R 775 /app/storage/framework
-chmod -R 775 /app/storage/framework/sessions
-chmod -R 775 /app/bootstrap
-chmod -R 775 /app/bootstrap/cache
+chmod -R 775 /var/www/storage
+chmod -R 775 /var/www/storage/logs
+chmod -R 775 /var/www/storage/framework
+chmod -R 775 /var/www/storage/framework/sessions
+chmod -R 775 /var/www/bootstrap
+chmod -R 775 /var/www/bootstrap/cache
 
 php-fpm -D
 nginx -g "daemon off;"
