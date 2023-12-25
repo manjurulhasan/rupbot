@@ -33,6 +33,7 @@ RUN mkdir -p ./storage/framework
 RUN mkdir -p ./storage/framework/{cache, testing, sessions, views}
 RUN mkdir -p ./storage/framework/bootstrap
 RUN mkdir -p ./storage/framework/bootstrap/cache
+RUN ["chmod", "+x", "docker/entrypoint.sh"]
 
 # Change current user to www
 USER www-data
