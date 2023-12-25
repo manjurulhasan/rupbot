@@ -35,8 +35,5 @@ RUN mkdir -p ./storage/framework/bootstrap
 RUN mkdir -p ./storage/framework/bootstrap/cache
 RUN ["chmod", "+x", "docker/entrypoint.sh"]
 
-# Change current user to www
-USER www-data
-
 # Run the entrypoint file.
-ENTRYPOINT [ "docker/entrypoint.sh" ]
+ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
