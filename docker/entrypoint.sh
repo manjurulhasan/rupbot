@@ -44,4 +44,3 @@ chmod -R 775 /var/www/bootstrap
 chmod -R 775 /var/www/bootstrap/cache
 
 php-fpm -D
-nginx -g "daemon off;"

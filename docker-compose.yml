@@ -23,7 +23,7 @@ services:
       # - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       # - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     ports:
-      - "9001:9000"
+      - "9000:9000"
     networks:
       - app_network
 
