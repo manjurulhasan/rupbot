@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3"
 #Docker Networks
 networks:
   app_network:
@@ -11,19 +11,15 @@ services:
     build:
       context: .
       target: php
-      args:
-        - APP_ENV=${APP_ENV}
     working_dir: /var/www
     restart: unless-stopped
     tty: true
-    environment:
-       - APP_ENV=${APP_ENV}
     volumes:
       - ./:/var/www
       # - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       # - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-    ports:
-      - "9000:9000"
+    # ports:
+    #   - "9001:9000"
     networks:
       - app_network
 

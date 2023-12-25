@@ -5,7 +5,7 @@ if [ ! -f "vendor/autoload.php" ]; then
 fi
 
 if [ ! -f ".env" ]; then
-    echo "Creating env file for env $APP_ENV"
+    echo "Creating env file for env"
     cp .env.example .env
     # case "$APP_ENV" in
     # "local")
@@ -24,23 +24,23 @@ fi
 # php artisan migrate
 php artisan clear
 php artisan optimize:clear
-php artisan migrate
+#php artisan migrate
 
 # Fix files ownership.
-chown -R www-data .
-chown -R www-data /var/www/storage
-chown -R www-data /var/www/storage/logs
-chown -R www-data /var/www/storage/framework
-chown -R www-data /var/www/storage/framework/sessions
-chown -R www-data /var/www/bootstrap
-chown -R www-data /var/www/bootstrap/cache
+# chown -R www-data .
+# chown -R www-data /var/www/storage
+# chown -R www-data /var/www/storage/logs
+# chown -R www-data /var/www/storage/framework
+# chown -R www-data /var/www/storage/framework/sessions
+# chown -R www-data /var/www/bootstrap
+# chown -R www-data /var/www/bootstrap/cache
 
-# Set correct permission.
-chmod -R 775 /var/www/storage
-chmod -R 775 /var/www/storage/logs
-chmod -R 775 /var/www/storage/framework
-chmod -R 775 /var/www/storage/framework/sessions
-chmod -R 775 /var/www/bootstrap
-chmod -R 775 /var/www/bootstrap/cache
+# # Set correct permission.
+# chmod -R 775 /var/www/storage
+# chmod -R 775 /var/www/storage/logs
+# chmod -R 775 /var/www/storage/framework
+# chmod -R 775 /var/www/storage/framework/sessions
+# chmod -R 775 /var/www/bootstrap
+# chmod -R 775 /var/www/bootstrap/cache
 
 php-fpm -D

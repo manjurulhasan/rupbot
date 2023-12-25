@@ -1,7 +1,5 @@
 FROM php:8.2-fpm as php
 
-
-
 # Install dependencies
 RUN apt-get update && apt-get install -y curl libpq-dev build-essential \
     zip \
@@ -33,6 +31,10 @@ RUN mkdir -p ./storage/framework
 RUN mkdir -p ./storage/framework/{cache, testing, sessions, views}
 RUN mkdir -p ./storage/framework/bootstrap
 RUN mkdir -p ./storage/framework/bootstrap/cache
+
+RUN usermod --uid 1000 www-data
+RUN groupmod --gid 1000  www-data
+
 RUN ["chmod", "+x", "docker/entrypoint.sh"]
 #USER www-data;
 # Run the entrypoint file.
