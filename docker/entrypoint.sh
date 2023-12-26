@@ -27,20 +27,22 @@ php artisan optimize:clear
 #php artisan migrate
 
 # Fix files ownership.
-# chown -R www-data .
-# chown -R www-data /var/www/storage
-# chown -R www-data /var/www/storage/logs
-# chown -R www-data /var/www/storage/framework
-# chown -R www-data /var/www/storage/framework/sessions
-# chown -R www-data /var/www/bootstrap
-# chown -R www-data /var/www/bootstrap/cache
+# chown -R www-data:www-data .
+# chown -R www-data:www-data /var/www/storage
+# chown -R www-data:www-data /var/www/storage/logs
+# chown -R www-data:www-data /var/www/storage/framework
+# chown -R www-data:www-data /var/www/storage/framework/sessions
+# chown -R www-data:www-data /var/www/bootstrap
+# chown -R www-data:www-data /var/www/bootstrap/cache
+# chown -R www-data:www-data /var/www/vendor
 
 # # Set correct permission.
-# chmod -R 775 /var/www/storage
-# chmod -R 775 /var/www/storage/logs
-# chmod -R 775 /var/www/storage/framework
-# chmod -R 775 /var/www/storage/framework/sessions
-# chmod -R 775 /var/www/bootstrap
-# chmod -R 775 /var/www/bootstrap/cache
+# chmod -R 777 /var/www/storage
+# chmod -R 777 /var/www/storage/logs
+# chmod -R 777 /var/www/storage/framework
+# chmod -R 777 /var/www/storage/framework/sessions
+# chmod -R 777 /var/www/bootstrap
+# chmod -R 777 /var/www/bootstrap/cache
+# chmod -R 777 /var/www/vendor
 
-php-fpm -D
+# php-fpm -D
