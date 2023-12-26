@@ -45,4 +45,4 @@ php artisan optimize:clear
 # chmod -R 777 /var/www/bootstrap/cache
 # chmod -R 777 /var/www/vendor
 
-php-fpm -D
+# php-fpm -D
