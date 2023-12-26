@@ -37,8 +37,9 @@ COPY --chown=www-data:www-data . .
 RUN usermod --uid 1000 www-data
 RUN groupmod --gid 1000  www-data
 
-RUN ["chmod", "+x", "docker/entrypoint.sh"]
 # USER www-data;
 # Run the entrypoint file.
 # EXPOSE 9000
+
+RUN ["chmod", "+x", "docker/entrypoint.sh"]
 ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
