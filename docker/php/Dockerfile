@@ -1,4 +1,4 @@
-FROM php:8.2-fpm 
+FROM php:8.2-fpm as php
 
 COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
@@ -29,6 +29,6 @@ COPY --chown=www-data:www-data . .
 RUN chown -R www-data:www-data .
 
 # Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# EXPOSE 9000
+# CMD ["php-fpm"]
 ENTRYPOINT ["sh", "docker/entrypoint.sh" ]

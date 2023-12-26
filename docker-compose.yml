@@ -1,58 +1,35 @@
-version: "3.9"
-services:
+version: "3"
 
-  #PHP Service
-  rupbot_app:
-    container_name: rupbot_app
+networks:
+  laravel:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:1.25.1-alpine-slim
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - .:/var/www/app:delegated
+    depends_on:
+      - php
+    networks:
+      - laravel
+
+  php:
     build:
       context: .
-      dockerfile: ./docker/php/Dockerfile
-    volumes:
-      - ./:/var/www
-      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    depends_on:
-      - mysql_db
-      - webserver
-    networks:
-      - app_network
-
-  #Nginx Service
-  webserver:
-    image: nginx:1.25.1-alpine-slim
-    container_name: webserver
-    volumes:
-      - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      dockerfile: Dockerfile
+    container_name: php
     restart: unless-stopped
     tty: true
-    ports:
-      - "80:80"
-    networks:
-      - app_network
-
-  #MySQL Service
-  mysql_db:
-    container_name: mysql_db
-    image: mysql:8.0.33
-    restart: unless-stopped
+    expose:
+      - "9000"
     volumes:
-      - dbdata:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-    tty: true
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: bof_erp
-      MYSQL_ROOT_PASSWORD: bof_erp_password
-      MYSQL_USER: bof_erp_user
-      MYSQL_PASSWORD: bof_erp_password
+      - .:/var/www/app:delegated
     networks:
-      - app_network
-
-#Docker Networks
-networks:
-  app_network:
-    driver: bridge
-volumes:
-  dbdata:
-    driver: local
+      - laravel

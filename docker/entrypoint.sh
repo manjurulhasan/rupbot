@@ -36,7 +36,7 @@ php artisan optimize:clear
 # chown -R www-data:www-data /var/www/bootstrap/cache
 # chown -R www-data:www-data /var/www/vendor
 
-# # Set correct permission.
+# # Set correct permission.dcu
 # chmod -R 777 /var/www/storage
 # chmod -R 777 /var/www/storage/logs
 # chmod -R 777 /var/www/storage/framework
@@ -45,4 +45,4 @@ php artisan optimize:clear
 # chmod -R 777 /var/www/bootstrap/cache
 # chmod -R 777 /var/www/vendor
 
-# php-fpm -D
+php-fpm -D
