@@ -1,5 +1,10 @@
 FROM php:8.2-fpm as php
 
+COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
+
+# Copy composer.lock and composer.json
+COPY composer.lock composer.json /var/www/
+
 # Install dependencies
 RUN apt-get update && apt-get install -y curl libpq-dev build-essential \
     zip \
@@ -9,31 +14,21 @@ RUN apt-get update && apt-get install -y curl libpq-dev build-essential \
     libgd-dev
 
 # Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-#Mine
+RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-external-gd
 RUN docker-php-ext-install gd
 
-# Set the working directory
-COPY . /var/www/app
-WORKDIR /var/www/app
+# COPY ./docker/php/laravel.ini /usr/local/etc/php/conf.d/laravel.ini
 
-RUN chown -R www-data:www-data /var/www/app \
-    && chmod -R 775 /var/www/app/storage
+WORKDIR /var/www
+COPY --chown=www-data:www-data . .
 
+RUN chown -R www-data:www-data .
 
-# install composer
-COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
-
-# copy composer.json to workdir & install dependencies
-COPY composer.json ./
-RUN composer install
-
-# Set the default command to run php-fpm
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
 CMD ["php-fpm"]
-
-# RUN ["chmod", "+x", "docker/entrypoint.sh"]
-# ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
