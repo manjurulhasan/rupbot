@@ -40,23 +40,23 @@ services:
       - app_network
 
   #MySQL Service
-  mysql_db:
-    container_name: mysql_db
-    image: mysql:8.0.33
-    restart: unless-stopped
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-    tty: true
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: bof_erp
-      MYSQL_ROOT_PASSWORD: bof_erp_password
-      MYSQL_USER: bof_erp_user
-      MYSQL_PASSWORD: bof_erp_password
-    networks:
-      - app_network
+  # mysql_db:
+  #   container_name: mysql_db
+  #   image: mysql:8.0.33
+  #   restart: unless-stopped
+  #   volumes:
+  #     - dbdata:/var/lib/mysql
+  #     - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+  #   tty: true
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     MYSQL_DATABASE: bof_erp
+  #     MYSQL_ROOT_PASSWORD: bof_erp_password
+  #     MYSQL_USER: bof_erp_user
+  #     MYSQL_PASSWORD: bof_erp_password
+  #   networks:
+  #     - app_network
 
 #Docker Networks
 networks:

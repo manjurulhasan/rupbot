@@ -1,34 +1,39 @@
-FROM php:8.2-fpm as php
+FROM php:8.2-fpm-alpine
 
-COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
+WORKDIR /var/www/html
 
-# Copy composer.lock and composer.json
-COPY composer.lock composer.json /var/www/
-
-# Install dependencies
-RUN apt-get update && apt-get install -y curl libpq-dev build-essential \
-    zip \
+# Install necessary dependencies
+RUN apk --no-cache add \
+    git \
     unzip \
-    libonig-dev \
+    libzip \
     libzip-dev \
-    libgd-dev
+    libpng \
+    libpng-dev \
+    bash \
+    openssl \
+    oniguruma-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    && docker-php-ext-install zip pdo_mysql bcmath mbstring gd
 
-# Clear cache
-RUN apt clean && rm -rf /var/lib/apt/lists/*
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath mbstring zip exif pcntl
-RUN docker-php-ext-configure gd --with-external-gd
-RUN docker-php-ext-install gd
-
-# COPY ./docker/php/laravel.ini /usr/local/etc/php/conf.d/laravel.ini
-
-WORKDIR /var/www
 COPY --chown=www-data:www-data . .
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
 
-RUN chown -R www-data:www-data .
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
 
-# Expose port 9000 and start php-fpm server
+# Expose port 9000
 EXPOSE 9000
-ENTRYPOINT ["sh", "docker/entrypoint.sh" ]
-CMD ["php-fpm"]
+
+# Nginx
+RUN apk --no-cache add nginx
+COPY ./docker/nginx/conf.d/ /etc/nginx/http.d/
+EXPOSE 80
+
+# Start PHP-FPM and Nginx
+CMD sh -c 'php-fpm & nginx -g "daemon off;"'
