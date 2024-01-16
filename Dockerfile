@@ -2,7 +2,6 @@ FROM php:8.2-fpm-alpine
 
 WORKDIR /var/www/html
 
-# Install necessary dependencies
 RUN apk --no-cache add \
     git \
     unzip \
@@ -23,11 +22,9 @@ COPY --chown=www-data:www-data . .
 COPY entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
 
-# Set proper permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
-# Expose port 9000
 EXPOSE 9000
 
 # Nginx
@@ -35,5 +32,4 @@ RUN apk --no-cache add nginx
 COPY ./docker/nginx/conf.d/ /etc/nginx/http.d/
 EXPOSE 80
 
-# Start PHP-FPM and Nginx
 CMD sh -c 'php-fpm & nginx -g "daemon off;"'
