@@ -13,8 +13,8 @@ jobs:
       DOCKER_IMAGE: "rupbot"
 
     steps:
-    # - name: Checkout code
-    #   uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     # - name: Set up Docker Buildx
     #   uses: docker/setup-buildx-action@v3
@@ -34,7 +34,7 @@ jobs:
         username: ${{ secrets.USER }}
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY }}
-        source: "conf.d"
+        source: "docker-compose.yml conf.d"
         target: "/root/rb"
     - name: Deploy to remote server
       uses: appleboy/ssh-action@v1.0.3
@@ -46,4 +46,4 @@ jobs:
         script: |
           cd /root/rb
           docker ps -a
-          # docker-compose up -d
+          docker-compose up -d
