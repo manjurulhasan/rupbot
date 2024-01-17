@@ -19,7 +19,7 @@ RUN apk --no-cache add \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY --chown=www-data:www-data . .
-COPY entrypoint.sh /usr/local/bin/entrypoint
+#COPY entrypoint.sh /usr/local/bin/entrypoint
 # RUN chmod +x /usr/local/bin/entrypoint
 
 RUN chown -R www-data:www-data /var/www/html \
