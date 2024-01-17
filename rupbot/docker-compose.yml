@@ -20,9 +20,9 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
+      - "8082:80"
     environment:
-      - DOMAIN=localhost
+      # - DOMAIN=localhost
       - APP_ENV=local
       - APP_DEBUG=true
     depends_on:
