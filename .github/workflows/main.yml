@@ -1,4 +1,4 @@
-name: Deploy laravel application
+name: Deploy Rupbot application
 
 on:
   push:
