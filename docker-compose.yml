@@ -1,68 +1,43 @@
-version: "3.9"
+version: '3'
 
 services:
-
-  #PHP Service
   rupbot:
     container_name: rupbot
     build:
       context: .
-      target: php
-      args:
-        - APP_ENV=${APP_ENV}
-    working_dir: /var/www/rupbot
-    # restart: unless-stopped
+      dockerfile: ./Dockerfile
     environment:
       - APP_ENV=local
+      #- DB_HOST=${DB_HOST}
+      - DB_HOST=docker.for.mac.host.internal
+      #- DB_HOST=host.docker.internal
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
     tty: true
-    # ports:
-    #   - "9001:9000"
     volumes:
-      - ./:/var/www/rupbot
-    #   - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    depends_on:
-      - webserver
+      - app_source:/var/www/html
+      - storage_data:/var/www/html/storage
+      - vendor_data:/var/www/html/vendor
     networks:
-      - app_network
-
-  #Nginx Service
-  webserver:
+      - mynetwork
+  nginx:
     image: nginx:1.25.1-alpine-slim
-    container_name: webserver
+    container_name: nginx
     volumes:
-      - ./:/var/www/rupbot
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - app_source:/var/www/html
+      - ./site.conf:/etc/nginx/conf.d/
     restart: unless-stopped
     tty: true
     ports:
-      - "8081:80"
+      - "8082:80"
     networks:
-      - app_network
-
-  #MySQL Service
-  # mysql_db:
-  #   container_name: mysql_db
-  #   image: mysql:8.0.33
-  #   restart: unless-stopped
-  #   volumes:
-  #     - dbdata:/var/lib/mysql
-  #     - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-  #   tty: true
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     MYSQL_DATABASE: bof_erp
-  #     MYSQL_ROOT_PASSWORD: bof_erp_password
-  #     MYSQL_USER: bof_erp_user
-  #     MYSQL_PASSWORD: bof_erp_password
-  #   networks:
-  #     - app_network
-
-#Docker Networks
+      - mynetwork
 networks:
-  app_network:
+  mynetwork:
     driver: bridge
-
 volumes:
-  dbdata:
-    driver: local
+  storage_data:
+  vendor_data:
+  app_source:

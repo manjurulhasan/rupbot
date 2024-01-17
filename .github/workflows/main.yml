@@ -9,7 +9,7 @@ jobs:
   buildandpush:
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_VERSION: "v1.0.1"
+      DOCKER_IMAGE_VERSION: "latest"
       DOCKER_IMAGE: "rupbot"
 
     steps:
@@ -24,9 +24,18 @@ jobs:
     
     - name: Build and push Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION} .
-        docker push ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}
+        docker build -t ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:latest .
+        docker push ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:latest
 
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.KEY }}
+        source: "docker-compose.yml site.conf"
+        target: "/root/rb"
     - name: Deploy to remote server
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -35,7 +44,6 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          docker stop rupbot
-          docker rm -f rupbot
-          docker pull ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}
-          docker run -d --name rupbot -p 8000:80 ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}
+          cd /root/rb
+          docker ps -a
+          docker-compose up -d
