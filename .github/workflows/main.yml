@@ -38,7 +38,7 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY }}
         source: "rupbot"
-        target: "/root/rb"
+        target: "/var/www"
     - name: Deploy to remote server
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -47,7 +47,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /root/rb
-          # mv site.conf conf.d/
+          cd /var/www/rupbot
           docker ps -a
-          # docker-compose up -d
+          docker-compose down
+          docker-compose up -d
