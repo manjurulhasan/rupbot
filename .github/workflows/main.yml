@@ -37,7 +37,7 @@ jobs:
         username: ${{ secrets.USER }}
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY }}
-        source: "docker-compose.yml conf.d/site.conf"
+        source: "docker-compose.yml site.conf"
         target: "/root/rb"
     - name: Deploy to remote server
       uses: appleboy/ssh-action@v1.0.3
@@ -48,5 +48,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /root/rb
+          mkdir conf.d
+          mv site.conf conf.d/
           docker ps -a
           docker-compose up -d
