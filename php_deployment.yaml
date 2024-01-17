@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rupbot-deployment
+  labels:
+    app: rupbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rupbot
+  template:
+    metadata:
+      labels:
+        app: rupbot
+    spec:
+      volumes:
+        - name: rupbot-pvc
+          persistentVolumeClaim:
+            claimName: rupbot-pvc
+        - name: logs
+          emptyDir: {}
+        - name: views
+          emptyDir: {}
+      containers:
+      - name: rupbot
+        image: mdshajib/rupbot
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: rupbot-pvc
+            mountPath: /var/www/html
+          - name: logs
+            mountPath: /var/www/html/storage/logs
+          - name: views
+            mountPath: /var/www/html/storage/framework/views
+        ports:
+        - name: rupbot
+          containerPort: 80
+          protocol: TCP
