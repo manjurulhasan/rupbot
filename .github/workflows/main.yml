@@ -27,7 +27,7 @@ jobs:
     #     docker build -t ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:latest .
     #     docker push ${{ secrets.DOCKER_USER }}/${DOCKER_IMAGE}:latest
 
-    - name: Copy file via scp
+    - name: Copy file to server
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
