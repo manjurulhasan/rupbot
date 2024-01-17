@@ -35,7 +35,7 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY }}
         source: "."
-        target: "/root/rb"
+        target: "/var/www/html"
     - name: Deploy to remote server
       uses: appleboy/ssh-action@v1.0.3
       with:
