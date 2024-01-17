@@ -3,18 +3,7 @@ version: '3'
 services:
   rupbot:
     container_name: rupbot
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      - APP_ENV=local
-      #- DB_HOST=${DB_HOST}
-      - DB_HOST=docker.for.mac.host.internal
-      #- DB_HOST=host.docker.internal
-      - DB_PORT=${DB_PORT}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+    image: mdshajib/rupbot:latest
     tty: true
     volumes:
       - app_source:/var/www/html
