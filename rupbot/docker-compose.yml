@@ -20,7 +20,13 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "8082:80"
+      - "80:80"
+    environment:
+      - DOMAIN=localhost
+      - APP_ENV=local
+      - APP_DEBUG=true
+    depends_on:
+      - rupbot
     networks:
       - mynetwork
 networks:
