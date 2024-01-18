@@ -6,25 +6,24 @@ services:
     image: mdshajib/rupbot:latest
     tty: true
     volumes:
-      # - app_source:/var/www/html
       - storage_data:/var/www/html/storage
       - vendor_data:/var/www/html/vendor
     networks:
       - mynetwork
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
   nginx:
     image: nginx:1.25.1-alpine-slim
     container_name: nginx
     volumes:
-      # - app_source:/var/www/html
       - ./conf.d/:/etc/nginx/conf.d/
     restart: unless-stopped
     tty: true
     ports:
       - "8082:80"
-    environment:
+    # environment:
       # - DOMAIN=localhost
-      - APP_ENV=local
-      - APP_DEBUG=true
     depends_on:
       - rupbot
     networks:
@@ -35,4 +34,3 @@ networks:
 volumes:
   storage_data:
   vendor_data:
-  # app_source:
