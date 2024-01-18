@@ -5,6 +5,7 @@ services:
     container_name: rupbot
     image: mdshajib/rupbot:latest
     tty: true
+    restart: always
     volumes:
       - storage_data:/var/www/html/storage
     networks:
