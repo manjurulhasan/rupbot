@@ -7,7 +7,6 @@ services:
     tty: true
     volumes:
       - storage_data:/var/www/html/storage
-      - vendor_data:/var/www/html/vendor
     networks:
       - mynetwork
     environment:
@@ -33,4 +32,3 @@ networks:
     driver: bridge
 volumes:
   storage_data:
-  vendor_data:

@@ -50,5 +50,5 @@ jobs:
           cd /var/www/rupbot
           docker ps -a
           docker-compose pull
-          docker-compose down -v
+          docker-compose down
           docker-compose up -d
