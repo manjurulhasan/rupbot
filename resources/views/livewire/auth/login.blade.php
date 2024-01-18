@@ -5,7 +5,7 @@
     </div>
     <div class="card card-md">
         <div class="card-body login-shadow-animate">
-            <h2 class="h2 text-center mb-4">Sign in to your account</h2>
+            <h2 class="h2 text-center mb-4">Sign in to your account !</h2>
             <p class="h2 text-center mb-4">
                 @if (session('error'))
                     <div class="alert alert-danger">
