@@ -7,6 +7,7 @@ services:
     tty: true
     restart: always
     volumes:
+      - app_source:/var/www/html
       - storage_data:/var/www/html/storage
     networks:
       - mynetwork
@@ -17,6 +18,7 @@ services:
     image: nginx:1.25.1-alpine-slim
     container_name: nginx
     volumes:
+      - app_source:/var/www/html
       - ./conf.d/:/etc/nginx/conf.d/
     restart: unless-stopped
     tty: true
@@ -32,4 +34,5 @@ networks:
   mynetwork:
     driver: bridge
 volumes:
+  app_source:
   storage_data:
