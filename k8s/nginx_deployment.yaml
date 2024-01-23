@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rupbot-nginx-deployment
+  labels:
+    app: rupbot-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rupbot-nginx
+  template:
+    metadata:
+      labels:
+        app: rupbot-nginx
+    spec:
+      containers:
+      - name: rupbot-nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: rupbot-pvc
+          mountPath: /var/www/html
+        - name: config
+          mountPath: /etc/nginx/conf.d
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      volumes:
+        - name: rupbot-pvc
+          persistentVolumeClaim:
+            claimName: rupbot-pvc
+        - name: config
+          configMap:
+            name: rupbot-nginx-config
+            items:
+            - key: config
+              path: site.conf

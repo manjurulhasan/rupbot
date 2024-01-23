@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rupbot-nginx-service
+spec:
+  selector:
+    app: rupbot-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30008
+  type: LoadBalancer

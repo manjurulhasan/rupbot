@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    rupbot:
+        container_name: rupbot
+        image: mdshajib/rupbot:latest
+        tty: true
+        restart: always
+        volumes:
+            - storage_data:/var/www/html/storage
+        networks:
+            - mynetwork
+        environment:
+            - APP_ENV=local
+            - APP_DEBUG=true
+    nginx:
+        image: nginx:1.25.1-alpine-slim
+        container_name: nginx
+        volumes:
+            - ./rupbot/conf.d/:/etc/nginx/conf.d/
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8082:80"
+            # environment:
+            # - DOMAIN=localhost
+        depends_on:
+            - rupbot
+        networks:
+            - mynetwork
+networks:
+    mynetwork:
+        driver: bridge
+volumes:
+    storage_data:

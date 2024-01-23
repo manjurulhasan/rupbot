@@ -3,8 +3,8 @@
 echo "=========== APP deploying ==========="
 
 kubectl apply -f ./pvc.yaml
-kubectl apply -f ./php_service.yaml
-kubectl apply -f ./php_deployment.yaml
+kubectl apply -f ./app_service.yaml
+kubectl apply -f ./app_deployment.yaml
 
 echo "=========== Nginx deploying ==========="
 
