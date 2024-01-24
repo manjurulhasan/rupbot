@@ -3,7 +3,7 @@
 set -e
 
 
-composer install --no-scripts --no-autoloader
+composer install --no-scripts --no-autoloader --no-dev
 composer dump-autoload --optimize
 
 if [ ! -f ".env" ]; then
