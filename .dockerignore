@@ -6,3 +6,6 @@ vendor/
 stubs/
 .github/
 .idea/
+composer.lock
+k8s/
+vendor/
