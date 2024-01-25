@@ -3,8 +3,8 @@
 set -e
 
 
-composer install --no-scripts --no-autoloader --no-dev
-composer dump-autoload --optimize
+# composer install --no-scripts --no-autoloader
+# composer dump-autoload --optimize
 
 if [ ! -f ".env" ]; then
     echo "Creating env file for env"
