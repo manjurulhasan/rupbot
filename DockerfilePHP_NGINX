@@ -1,0 +1,49 @@
+# Stage 1: Build Laravel Application
+FROM php:8.2-fpm-alpine AS builder
+
+WORKDIR /var/www/html
+
+RUN apk --no-cache add \
+    git \
+    unzip \
+    libzip \
+    libzip-dev \
+    libpng-dev \
+    bash \
+    openssl \
+    oniguruma-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    && docker-php-ext-install zip pdo_mysql bcmath mbstring gd
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . .
+
+# Make sure the following command uses the default www-data user/group
+RUN composer install --no-scripts --no-autoloader
+RUN composer dump-autoload --optimize
+
+# Stage 2: Create the final image with Nginx
+FROM nginx:1.24.0-alpine-slim
+
+WORKDIR /var/www/html
+
+# Copy Laravel application from the builder stage
+COPY --from=builder /var/www/html .
+
+# Copy Nginx configuration
+COPY site.conf /etc/nginx/conf.d/
+
+# Set permissions using default www-data user/group
+RUN chown -R nginx:nginx /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
+
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+
+# Expose the ports for Nginx and PHP-FPM
+EXPOSE 80 9000
+
+CMD /usr/local/sbin/php-fpm && nginx -g "daemon off;"

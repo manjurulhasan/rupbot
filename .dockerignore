@@ -1,6 +1,5 @@
 .git/
 node_modules/
-Dockerfile
 docker-compose.yml
 vendor/
 stubs/
@@ -9,3 +8,4 @@ stubs/
 composer.lock
 k8s/
 vendor/
+.env

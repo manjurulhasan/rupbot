@@ -1,14 +1,21 @@
-version: '3'
-
 services:
   rupbot:
-    container_name: rupbot
     image: mdshajib/rupbot:latest
     tty: true
     restart: always
     volumes:
       - app_source:/var/www/html
       - storage_data:/var/www/html/storage
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 100M
+        reservations:
+          cpus: '0.25'
+          memory: 50M
     networks:
       - mynetwork
     environment:
@@ -16,12 +23,21 @@ services:
       - APP_DEBUG=true
   nginx:
     image: nginx:1.25.1-alpine-slim
-    container_name: nginx
     volumes:
       - app_source:/var/www/html
       - ./conf.d/:/etc/nginx/conf.d/
     restart: unless-stopped
     tty: true
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     ports:
       - "8082:80"
     # environment:
