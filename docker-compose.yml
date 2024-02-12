@@ -1,6 +1,6 @@
 services:
   rupbot:
-    image: mdshajib/rupbot:latest
+    image: seliseretail/rupbot:latest
     tty: true
     restart: always
     volumes:
