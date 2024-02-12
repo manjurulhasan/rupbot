@@ -4,8 +4,8 @@ services:
     tty: true
     restart: always
     volumes:
-      - app_source:/var/www/html
-      - storage_data:/var/www/html/storage
+      - rupbot_source:/var/www/html
+      - rupbot_data:/var/www/html/storage
     deploy:
       mode: replicated
       replicas: 1
@@ -17,14 +17,19 @@ services:
           cpus: '0.25'
           memory: 50M
     networks:
-      - mynetwork
+      - rupbotnetwork
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
+      - DB_HOST=142.93.219.128
+      - DB_PORT=3306
+      - DB_DATABASE=rupbot
+      - DB_USERNAME=rupbot
+      - DB_PASSWORD="Vfs2021$$%^RPB"
   nginx:
-    image: nginx:1.25.1-alpine-slim
+    image: nginx:1.24.0-alpine-slim
     volumes:
-      - app_source:/var/www/html
+      - rupbot_source:/var/www/html
       - ./conf.d/:/etc/nginx/conf.d/
     restart: unless-stopped
     tty: true
@@ -39,16 +44,14 @@ services:
           cpus: '0.25'
           memory: 20M
     ports:
-      - "8082:80"
-    # environment:
-      # - DOMAIN=localhost
+      - "8083:80"
     depends_on:
       - rupbot
     networks:
-      - mynetwork
+      - rupbotnetwork
 networks:
-  mynetwork:
+  rupbotnetwork:
     driver: bridge
 volumes:
-  app_source:
-  storage_data:
+  rupbot_source:
+  rupbot_data:
