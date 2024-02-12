@@ -25,7 +25,7 @@ services:
       - DB_PORT=3306
       - DB_DATABASE=rupbot
       - DB_USERNAME=rupbot
-      - DB_PASSWORD="Vfs2021$$%^RPB"
+      - DB_PASSWORD=Vfs2021$$%^RPB
   nginx:
     image: nginx:1.24.0-alpine-slim
     volumes:
