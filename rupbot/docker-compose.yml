@@ -16,8 +16,8 @@ services:
         reservations:
           cpus: '0.25'
           memory: 50M
-    networks:
-      - rupbotnetwork
+    # networks:
+    #   - rupbotnetwork
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
@@ -47,11 +47,11 @@ services:
       - "8083:80"
     depends_on:
       - rupbot
-    networks:
-      - rupbotnetwork
-networks:
-  rupbotnetwork:
-    driver: bridge
+    # networks:
+    #   - rupbotnetwork
+# networks:
+#   rupbotnetwork:
+#     driver: bridge
 volumes:
   rupbot_source:
   rupbot_data:
