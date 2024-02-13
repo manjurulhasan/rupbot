@@ -3,6 +3,7 @@ FROM php:8.2-fpm-alpine
 WORKDIR /var/www/html
 
 RUN apk --no-cache add \
+    mysql-client \
     git \
     unzip \
     libzip \

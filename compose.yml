@@ -16,8 +16,8 @@ services:
         reservations:
           cpus: '0.25'
           memory: 50M
-    networks:
-      - mynetwork
+    # networks:
+    #   - mynetwork
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
@@ -39,17 +39,16 @@ services:
           cpus: '0.25'
           memory: 20M
     ports:
-      - "80:80"
-    hostname: rb.test
+      - "8083:80"
     depends_on:
       - rupbot
-    networks:
-      mynetwork:
-        aliases:
-        - rb.test
-networks:
-  mynetwork:
-    driver: bridge
+    # networks:
+    #   mynetwork:
+    #     aliases:
+    #     - rb.test
+# networks:
+#   mynetwork:
+#     driver: bridge
 volumes:
   app_source:
   storage_data:
